@@ -7,7 +7,7 @@ public class Task {
     private final int id ;
     private String name;
     private String description;
-    TaskStatus status;
+    private TaskStatus status;
 
     public Task(String name){
         id = index++;

@@ -21,7 +21,7 @@ public class Epic extends Task{
                 ", name=" + getName() +
                 ", description=" + getDescription() +
                 ", subTasks=" + subTaskHashMap +
-                ", status=" + status +
+                ", status=" + getStatus() +
                 '}';
     }
 
@@ -56,15 +56,15 @@ public class Epic extends Task{
                     countDone++;
                     break;
             }
-            if(countDone == 0 && countInProgress == 0){
-                status =TaskStatus.NEW;
-            }else if(countInProgress>0 || (countDone>0 && countNew>0)){
-                status = TaskStatus.IN_PROGRESS;
+            if(countInProgress>0 || (countDone>0 && countNew>0)){
+                setStatus(TaskStatus.IN_PROGRESS);
             }else if(countDone>0 && countNew==0 && countInProgress ==0){
-                status = TaskStatus.DONE;
+                setStatus(TaskStatus.DONE);
+            }else{
+                setStatus(TaskStatus.NEW);
             }
         }
-        return status;
+        return super.getStatus();
     }
 
     public void addSubTask(SubTask subTask){
