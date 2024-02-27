@@ -3,16 +3,17 @@ package ya.tasktracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Manager {
+public class InMemoryTaskManager implements TaskManager{
     private final HashMap<Integer, Task> tasks;
     private final HashMap<Integer, Epic> epics;
     private final HashMap<Integer, SubTask> subTasks;
+    private final  InMemoryHistoryManager inMemoryHistoryManager;
 
-    public Manager() {
+    public InMemoryTaskManager() {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subTasks = new HashMap<>();
-
+        inMemoryHistoryManager = new InMemoryHistoryManager();
     }
 
     public ArrayList<Task> getTasks() {
@@ -43,15 +44,28 @@ public class Manager {
         subTasks.clear();
     }
 
+
     public Task getTask(int id) {
+        Task task = tasks.get(id);
+        if(task != null) {
+            inMemoryHistoryManager.add(task);
+        }
         return tasks.get(id);
     }
 
     public Epic getEpic(int id) {
+        Epic epic = epics.get(id);
+        if(epic!=null) {
+            inMemoryHistoryManager.add(epic);
+        }
         return epics.get(id);
     }
 
     public SubTask getSubtask(int id) {
+        SubTask subTask = subTasks.get(id);
+        if (subTask != null) {
+            inMemoryHistoryManager.add(subTask);
+        }
         return subTasks.get(id);
     }
 
@@ -68,7 +82,9 @@ public class Manager {
 
     public void createSubTask(SubTask task) {
         subTasks.put(task.getId(), task);
-        epics.put(task.getParent().getId(), task.getParent());
+        if(task.getParent()!=null) {
+            epics.put(task.getParent().getId(), task.getParent());
+        }
     }
 
     public void updateTask(Task task) {
@@ -87,7 +103,7 @@ public class Manager {
 
     public void deleteEpic(int id) {
         Epic epic = epics.get(id);
-        for (Task task : epic.getSubTask()) {
+        for (AbstractTask task : epic.getSubTask()) {
             deleteSubTask(task.getId());
         }
         epics.remove(id);
@@ -103,5 +119,8 @@ public class Manager {
         return new ArrayList<>(epic.getSubTask());
     }
 
+    public HistoryManager getDefaultHistory(){
+        return inMemoryHistoryManager;
+    }
 
 }

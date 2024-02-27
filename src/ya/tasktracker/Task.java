@@ -2,51 +2,27 @@ package ya.tasktracker;
 
 import java.util.Objects;
 
-public class Task {
-    private static int index =0;
-    private final int id ;
-    private String name;
-    private String description;
+public class Task extends AbstractTask implements Statusable{
+
     private TaskStatus status;
 
     public Task(String name){
-        id = index++;
-        this.name = name;
+       super(name);
         status = TaskStatus.NEW;
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
                 ", status=" + status +
                 '}';
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        if(description == null)return "";
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public TaskStatus getStatus() {
+      public TaskStatus getStatus() {
         return status;
     }
 
@@ -55,12 +31,13 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+        return Objects.equals(getName(), task.getName()) && Objects.equals(getDescription(), task.getDescription())
+                && status == task.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, status);
+        return Objects.hash(getName(), getDescription(), status);
     }
 
     public void setStatus(TaskStatus status) {
