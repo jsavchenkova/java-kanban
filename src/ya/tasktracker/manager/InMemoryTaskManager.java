@@ -10,12 +10,14 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Epic> epics;
     private final HashMap<Integer, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
+    private final IndexTask index;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subTasks = new HashMap<>();
         inMemoryHistoryManager = historyManager;
+        index = new IndexTask();
     }
 
     public ArrayList<ITask> getTasks() {
@@ -72,21 +74,21 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public int createTask(Task task) {
-        int id = IndexTask.getNextId();
+        int id = index.getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
         return id;
     }
 
     public int createEpic(Epic task) {
-        int id = IndexTask.getNextId();
+        int id = index.getNextId();
         task.setId(id);
         updateEpic(task);
         return id;
     }
 
     public int createSubTask(SubTask task) {
-        int id = IndexTask.getNextId();
+        int id = index.getNextId();
         task.setId(id);
         updateSubTask(task);
         return id;

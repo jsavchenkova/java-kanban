@@ -1,8 +1,8 @@
 package ya.tasktracker.task;
 
-public final class IndexTask {
-    private static int id;
-    public static int getNextId(){
+public class IndexTask {
+    private int id;
+    public int getNextId(){
         return id++;
     }
 }
