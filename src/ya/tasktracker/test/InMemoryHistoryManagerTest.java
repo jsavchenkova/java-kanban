@@ -28,10 +28,10 @@ class InMemoryHistoryManagerTest {
         taskManager.getTask(id2);
         taskManager.getTask(id1);
         taskManager.getEpic(id3);
-        ArrayList<ITask> history = managers.getDefaultHistory().getHistory();
 
-        assertEquals(history.get(0), task2);
-        assertEquals(history.get(1), task1);
-        assertEquals(history.get(2), task3);
+
+        assertEquals(taskManager.getHistory().get(0), task2);
+        assertEquals(taskManager.getHistory().get(1), task1);
+        assertEquals(taskManager.getHistory().get(2), task3);
     }
 }

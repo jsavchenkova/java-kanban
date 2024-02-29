@@ -24,6 +24,7 @@ public final class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public ArrayList<ITask> getHistory() {
-        return taskList;
+
+        return new ArrayList<>(taskList);
     }
 }
