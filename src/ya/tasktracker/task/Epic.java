@@ -67,7 +67,7 @@ public class Epic extends AbstractTask{
 
     public void addSubTask(SubTask subTask){
         subTaskHashMap.put(subTask.getId(), subTask);
-        subTask.setParent(this.getId());
+        subTask.setParent(this);
     }
 
     public ArrayList<SubTask> getSubTask(){

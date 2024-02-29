@@ -13,8 +13,8 @@ public class SubTask extends Task{
         return parentId;
     }
 
-    public void setParent(int parentId) {
-        this.parentId = parentId;
+    public void setParent(Epic parent) {
+        this.parentId = parent.getId();
     }
 
     @Override
