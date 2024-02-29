@@ -1,6 +1,9 @@
-package ya.tasktracker;
+package ya.tasktracker.test;
 
 import org.junit.jupiter.api.Test;
+import ya.tasktracker.task.AbstractTask;
+import ya.tasktracker.task.Epic;
+import ya.tasktracker.task.SubTask;
 
 import static org.junit.jupiter.api.Assertions.*;
 

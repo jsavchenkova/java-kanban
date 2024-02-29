@@ -1,7 +1,9 @@
-package ya.tasktracker;
+package ya.tasktracker.test;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ya.tasktracker.task.AbstractTask;
+import ya.tasktracker.task.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 

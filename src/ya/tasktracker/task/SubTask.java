@@ -1,26 +1,26 @@
-package ya.tasktracker;
+package ya.tasktracker.task;
 
 import java.util.Objects;
 
 public class SubTask extends Task{
-    private Epic parent;
+    private Integer parentId;
 
 
     public SubTask(String name) {
         super(name);
     }
-    public Epic getParent() {
-        return parent;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent(Epic parent) {
-        this.parent = parent;
+    public void setParent(int parentId) {
+        this.parentId = parentId;
     }
 
     @Override
     public String toString() {
         return "SubTask{" + super.toString() +
-                "parent=" + parent.getId() +": " + parent.getName() +
+                "parentId=" + parentId +
                 '}';
     }
 
@@ -30,12 +30,12 @@ public class SubTask extends Task{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SubTask subTask = (SubTask) o;
-        return Objects.equals(parent, subTask.parent);
+        return Objects.equals(parentId, subTask.parentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), parent);
+        return Objects.hash(super.hashCode(), parentId);
     }
 
 

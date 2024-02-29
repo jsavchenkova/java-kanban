@@ -1,4 +1,4 @@
-package ya.tasktracker;
+package ya.tasktracker.task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +67,7 @@ public class Epic extends AbstractTask{
 
     public void addSubTask(SubTask subTask){
         subTaskHashMap.put(subTask.getId(), subTask);
-        subTask.setParent(this);
+        subTask.setParent(this.getId());
     }
 
     public ArrayList<SubTask> getSubTask(){

@@ -1,19 +1,21 @@
-package ya.tasktracker;
+package ya.tasktracker.task;
 
-public abstract class AbstractTask {
+public abstract class AbstractTask implements ITask{
 
-    private final int id ;
+    private int id ;
     private String name;
     private String description;
 
     public AbstractTask(String name){
-        id = IndexTask.id++;
         this.name = name;
 
     }
 
     public int getId() {
         return id;
+    }
+    public void setId(int id){
+        this.id=id;
     }
 
     public String getName() {
