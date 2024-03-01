@@ -17,13 +17,13 @@ class EpicTest {
     }
 
     @Test
-    void addEpicTest(){
+    void addEpicTest() {
         Epic epic = new Epic("epic_test");
         Task task = epic;
         boolean exceprionThrown = false;
         try {
             epic.addSubTask((SubTask) task);
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             exceprionThrown = true;
         }
         assertTrue(exceprionThrown);

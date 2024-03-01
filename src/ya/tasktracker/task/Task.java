@@ -5,11 +5,11 @@ import java.util.Objects;
 public class Task {
 
     private TaskStatus status;
-    private int id ;
+    private int id;
     private String name;
     private String description;
 
-    public Task(String name){
+    public Task(String name) {
         this.name = name;
         status = TaskStatus.NEW;
     }
@@ -17,8 +17,9 @@ public class Task {
     public int getId() {
         return id;
     }
-    public void setId(int id){
-        this.id=id;
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -30,14 +31,13 @@ public class Task {
     }
 
     public String getDescription() {
-        if(description == null)return "";
+        if (description == null) return "";
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 
     @Override
@@ -51,7 +51,7 @@ public class Task {
     }
 
 
-      public TaskStatus getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 

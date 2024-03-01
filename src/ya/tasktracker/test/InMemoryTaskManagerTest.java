@@ -16,10 +16,11 @@ class InMemoryTaskManagerTest {
     private static TaskManager taskManager;
 
     @BeforeAll
-    static void create(){
+    static void create() {
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
         taskManager = new InMemoryTaskManager(historyManager);
     }
+
     @Test
     void createTaskTest() {
         Task task = new Task("task");
@@ -38,7 +39,7 @@ class InMemoryTaskManagerTest {
     void createSubTaskTest() {
         SubTask subTask = new SubTask("subtask");
         int id = taskManager.createSubTask(subTask);
-        assertEquals(taskManager.getSubtask(id),subTask);
+        assertEquals(taskManager.getSubtask(id), subTask);
     }
 
 

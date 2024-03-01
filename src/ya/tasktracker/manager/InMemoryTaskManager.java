@@ -54,7 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     public Task getTask(int id) {
         Task task = tasks.get(id);
-        if(task != null) {
+        if (task != null) {
             inMemoryHistoryManager.add(task);
         }
         return tasks.get(id);
@@ -62,7 +62,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     public Epic getEpic(int id) {
         Epic epic = epics.get(id);
-        if(epic!=null) {
+        if (epic != null) {
             inMemoryHistoryManager.add(epic);
         }
         return epics.get(id);
@@ -100,13 +100,15 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
     }
-    public void updateEpic(Epic task){
+
+    public void updateEpic(Epic task) {
         epics.put(task.getId(), task);
 
     }
-    public void updateSubTask(SubTask task){
+
+    public void updateSubTask(SubTask task) {
         subTasks.put(task.getId(), task);
-        if(task.getParentId()!=null) {
+        if (task.getParentId() != null) {
             setEpicStatus(epics.get(task.getParentId()));
         }
     }
@@ -134,16 +136,16 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(epic.getSubTask());
     }
 
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return inMemoryHistoryManager.getHistory();
     }
 
-    private void setEpicStatus(Epic epic){
-        TaskStatus status ;
+    private void setEpicStatus(Epic epic) {
+        TaskStatus status;
         int countNew = 0;
         int countInProgress = 0;
         int countDone = 0;
-        for(int subTaskId: epic.getSubTask()) {
+        for (int subTaskId : epic.getSubTask()) {
             switch (subTasks.get(subTaskId).getStatus()) {
                 case NEW:
                     countNew++;
@@ -156,13 +158,13 @@ public class InMemoryTaskManager implements TaskManager {
                     break;
             }
         }
-            if(countInProgress>0 || (countDone>0 && countNew>0)){
-                epic.setStatus(TaskStatus.IN_PROGRESS);
-            }else if(countDone>0 && countNew==0 && countInProgress ==0){
-                epic.setStatus(TaskStatus.DONE);
-            }else{
-                epic.setStatus(TaskStatus.NEW);
-            }
+        if (countInProgress > 0 || (countDone > 0 && countNew > 0)) {
+            epic.setStatus(TaskStatus.IN_PROGRESS);
+        } else if (countDone > 0 && countNew == 0 && countInProgress == 0) {
+            epic.setStatus(TaskStatus.DONE);
+        } else {
+            epic.setStatus(TaskStatus.NEW);
+        }
     }
 
 }

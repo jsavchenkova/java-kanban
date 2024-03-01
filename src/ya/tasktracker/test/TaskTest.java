@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
     private static Task task1;
+
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         task1 = new Task("test_task");
     }
 
@@ -22,11 +23,10 @@ class TaskTest {
     }
 
     @Test
-    void equalsTaskTaskTest(){
+    void equalsTaskTaskTest() {
         Task task3 = task1;
         assertTrue(task1.equals(task3));
     }
-
 
 
 }

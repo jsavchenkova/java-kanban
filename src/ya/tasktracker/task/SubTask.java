@@ -2,13 +2,14 @@ package ya.tasktracker.task;
 
 import java.util.Objects;
 
-public class SubTask extends Task{
+public class SubTask extends Task {
     private Integer parentId;
 
 
     public SubTask(String name) {
         super(name);
     }
+
     public Integer getParentId() {
         return parentId;
     }
@@ -37,8 +38,6 @@ public class SubTask extends Task{
     public int hashCode() {
         return Objects.hash(super.hashCode(), parentId);
     }
-
-
 
 
 }

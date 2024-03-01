@@ -15,7 +15,7 @@ class SubTaskTest {
         Task task = subTask;
         boolean exceprionThrown = false;
         try {
-            subTask.setParent( (Epic) task);
+            subTask.setParent((Epic) task);
         } catch (ClassCastException e) {
             exceprionThrown = true;
         }

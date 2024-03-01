@@ -2,13 +2,12 @@ package ya.tasktracker.task;
 
 import java.util.*;
 
-public class Epic extends Task{
-//    private final Map<Integer, SubTask> subTaskHashMap;
+public class Epic extends Task {
     private final List<Integer> subTaskList;
+
     public Epic(String name) {
         super(name);
         subTaskList = new ArrayList<>();
-//        subTaskHashMap = new HashMap<>();
     }
 
     @Override
@@ -37,48 +36,20 @@ public class Epic extends Task{
     }
 
 
-
-//    public TaskStatus getStatus(){
-//        TaskStatus status ;
-//        int countNew = 0;
-//        int countInProgress = 0;
-//        int countDone = 0;
-//        for(SubTask subTask: subTaskList) {
-//            switch (subTask.getStatus()) {
-//                case NEW:
-//                    countNew++;
-//                    break;
-//                case IN_PROGRESS:
-//                    countInProgress++;
-//                    break;
-//                case DONE:
-//                    countDone++;
-//                    break;
-//            }
-//        }
-//            if(countInProgress>0 || (countDone>0 && countNew>0)){
-//                return TaskStatus.IN_PROGRESS;
-//            }else if(countDone>0 && countNew==0 && countInProgress ==0){
-//                return TaskStatus.DONE;
-//            }else{
-//                return TaskStatus.NEW;
-//            }
-//
-//    }
-
-    public void addSubTask(SubTask subTask){
+    public void addSubTask(SubTask subTask) {
         subTaskList.add(subTask.getId());
         subTask.setParent(this);
     }
 
-    public List<Integer> getSubTask(){
+    public List<Integer> getSubTask() {
         return new ArrayList<>(subTaskList);
     }
 
-    public void clearSubTasks(){
+    public void clearSubTasks() {
         subTaskList.clear();
     }
-    public void removeSubtask(int id){
+
+    public void removeSubtask(int id) {
         subTaskList.remove(id);
     }
 }

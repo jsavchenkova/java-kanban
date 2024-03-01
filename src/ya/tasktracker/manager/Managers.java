@@ -2,10 +2,11 @@ package ya.tasktracker.manager;
 
 public class Managers {
 
-    public TaskManager getDefault(){
+    public TaskManager getDefault() {
         return new InMemoryTaskManager(getDefaultHistory());
     }
-    public HistoryManager getDefaultHistory(){
+
+    public HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
 }

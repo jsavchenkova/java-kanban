@@ -19,7 +19,7 @@ class InMemoryHistoryManagerTest {
         TaskManager taskManager = managers.getDefault();
         int id1 = taskManager.createTask(task1);
         int id2 = taskManager.createTask(task2);
-        int id3 =taskManager.createEpic(task3);
+        int id3 = taskManager.createEpic(task3);
         taskManager.getTask(id2);
         taskManager.getTask(id1);
         taskManager.getEpic(id3);
