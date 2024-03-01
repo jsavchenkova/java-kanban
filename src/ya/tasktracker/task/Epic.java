@@ -2,10 +2,11 @@ package ya.tasktracker.task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Epic extends AbstractTask{
-    private final HashMap<Integer, SubTask> subTaskHashMap;
+    private final Map<Integer, SubTask> subTaskHashMap;
     public Epic(String name) {
         super(name);
         subTaskHashMap = new HashMap<>();

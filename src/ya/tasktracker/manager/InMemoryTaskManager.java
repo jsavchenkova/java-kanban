@@ -4,11 +4,13 @@ import ya.tasktracker.task.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> tasks;
-    private final HashMap<Integer, Epic> epics;
-    private final HashMap<Integer, SubTask> subTasks;
+    private final Map<Integer, Task> tasks;
+    private final Map<Integer, Epic> epics;
+    private final Map<Integer, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
     private final IndexTask index;
 
@@ -20,15 +22,15 @@ public class InMemoryTaskManager implements TaskManager {
         index = new IndexTask();
     }
 
-    public ArrayList<ITask> getTasks() {
+    public List<ITask> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
-    public ArrayList<ITask> getEpics() {
+    public List<ITask> getEpics() {
         return new ArrayList<>(epics.values());
     }
 
-    public ArrayList<ITask> getSubTasks() {
+    public List<ITask> getSubTasks() {
         return new ArrayList<>(subTasks.values());
     }
 
@@ -128,11 +130,11 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.remove(id);
     }
 
-    public ArrayList<SubTask> getSubTasksByEpic(Epic epic) {
+    public List<SubTask> getSubTasksByEpic(Epic epic) {
         return new ArrayList<>(epic.getSubTask());
     }
 
-    public ArrayList<ITask> getHistory(){
+    public List<ITask> getHistory(){
         return inMemoryHistoryManager.getHistory();
     }
 

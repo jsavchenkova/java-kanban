@@ -5,13 +5,13 @@ import ya.tasktracker.task.ITask;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /*Управление задачами*/
 public interface TaskManager {
-    ArrayList<ITask> getTasks();
-    ArrayList<ITask> getEpics();
-    ArrayList<ITask> getSubTasks();
+    List<ITask> getTasks();
+    List<ITask> getEpics();
+    List<ITask> getSubTasks();
     void removeAllTasks();
     /*Удаление всех эпиков вместе с подзадачами*/
     void removeAllEpics();
@@ -29,7 +29,7 @@ public interface TaskManager {
     /*удалине эпика вместе с подзадачами*/
     void deleteEpic(int id);
     void deleteSubTask(int id);
-    ArrayList<SubTask> getSubTasksByEpic(Epic epic);
+    List<SubTask> getSubTasksByEpic(Epic epic);
     /*история просмотра задач*/
-    ArrayList<ITask> getHistory();
+    List<ITask> getHistory();
 }

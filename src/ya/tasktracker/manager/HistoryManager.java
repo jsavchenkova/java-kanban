@@ -5,8 +5,9 @@ import ya.tasktracker.task.ITask;
 import ya.tasktracker.task.IndexTask;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface HistoryManager {
     void add(ITask task);
-    ArrayList<ITask>getHistory();
+    List<ITask> getHistory();
 }
