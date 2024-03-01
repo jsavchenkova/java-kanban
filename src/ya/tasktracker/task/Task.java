@@ -2,14 +2,43 @@ package ya.tasktracker.task;
 
 import java.util.Objects;
 
-public class Task extends AbstractTask implements Statusable{
+public class Task {
 
     private TaskStatus status;
+    private int id ;
+    private String name;
+    private String description;
 
     public Task(String name){
-       super(name);
+        this.name = name;
         status = TaskStatus.NEW;
     }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        if(description == null)return "";
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 
     @Override
     public String toString() {
@@ -26,7 +55,7 @@ public class Task extends AbstractTask implements Statusable{
         return status;
     }
 
-    @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -35,7 +64,7 @@ public class Task extends AbstractTask implements Statusable{
                 && status == task.status;
     }
 
-    @Override
+
     public int hashCode() {
         return Objects.hash(getName(), getDescription(), status);
     }

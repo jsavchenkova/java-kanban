@@ -2,7 +2,6 @@ package ya.tasktracker.test;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ya.tasktracker.task.AbstractTask;
 import ya.tasktracker.task.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,8 +22,8 @@ class TaskTest {
     }
 
     @Test
-    void equalsAbstractTaskTaskTest(){
-        AbstractTask task3 = task1;
+    void equalsTaskTaskTest(){
+        Task task3 = task1;
         assertTrue(task1.equals(task3));
     }
 

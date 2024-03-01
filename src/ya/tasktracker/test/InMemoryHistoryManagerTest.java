@@ -2,14 +2,9 @@ package ya.tasktracker.test;
 
 import org.junit.jupiter.api.Test;
 import ya.tasktracker.manager.Managers;
-import ya.tasktracker.task.AbstractTask;
 import ya.tasktracker.task.Epic;
-import ya.tasktracker.task.ITask;
 import ya.tasktracker.task.Task;
-import ya.tasktracker.manager.InMemoryTaskManager;
 import ya.tasktracker.manager.TaskManager;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

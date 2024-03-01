@@ -1,15 +1,14 @@
 package ya.tasktracker.task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-public class Epic extends AbstractTask{
-    private final Map<Integer, SubTask> subTaskHashMap;
+public class Epic extends Task{
+//    private final Map<Integer, SubTask> subTaskHashMap;
+    private final List<Integer> subTaskList;
     public Epic(String name) {
         super(name);
-        subTaskHashMap = new HashMap<>();
+        subTaskList = new ArrayList<>();
+//        subTaskHashMap = new HashMap<>();
     }
 
     @Override
@@ -18,7 +17,7 @@ public class Epic extends AbstractTask{
                 "id=" + getId() +
                 ", name=" + getName() +
                 ", description=" + getDescription() +
-                ", subTasks=" + subTaskHashMap +
+                ", subTasks=" + subTaskList +
                 ", status=" + getStatus() +
                 '}';
     }
@@ -29,56 +28,57 @@ public class Epic extends AbstractTask{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Epic epic = (Epic) o;
-        return Objects.equals(subTaskHashMap, epic.subTaskHashMap);
+        return Objects.equals(subTaskList, epic.subTaskList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), subTaskHashMap);
+        return Objects.hash(super.hashCode(), subTaskList);
     }
 
 
-    public TaskStatus getStatus(){
-        TaskStatus status ;
-        int countNew = 0;
-        int countInProgress = 0;
-        int countDone = 0;
-        for(SubTask subTask: subTaskHashMap.values()) {
-            switch (subTask.getStatus()) {
-                case NEW:
-                    countNew++;
-                    break;
-                case IN_PROGRESS:
-                    countInProgress++;
-                    break;
-                case DONE:
-                    countDone++;
-                    break;
-            }
-        }
-            if(countInProgress>0 || (countDone>0 && countNew>0)){
-                return TaskStatus.IN_PROGRESS;
-            }else if(countDone>0 && countNew==0 && countInProgress ==0){
-                return TaskStatus.DONE;
-            }else{
-                return TaskStatus.NEW;
-            }
 
-    }
+//    public TaskStatus getStatus(){
+//        TaskStatus status ;
+//        int countNew = 0;
+//        int countInProgress = 0;
+//        int countDone = 0;
+//        for(SubTask subTask: subTaskList) {
+//            switch (subTask.getStatus()) {
+//                case NEW:
+//                    countNew++;
+//                    break;
+//                case IN_PROGRESS:
+//                    countInProgress++;
+//                    break;
+//                case DONE:
+//                    countDone++;
+//                    break;
+//            }
+//        }
+//            if(countInProgress>0 || (countDone>0 && countNew>0)){
+//                return TaskStatus.IN_PROGRESS;
+//            }else if(countDone>0 && countNew==0 && countInProgress ==0){
+//                return TaskStatus.DONE;
+//            }else{
+//                return TaskStatus.NEW;
+//            }
+//
+//    }
 
     public void addSubTask(SubTask subTask){
-        subTaskHashMap.put(subTask.getId(), subTask);
+        subTaskList.add(subTask.getId());
         subTask.setParent(this);
     }
 
-    public ArrayList<SubTask> getSubTask(){
-        return new ArrayList<>(subTaskHashMap.values());
+    public List<Integer> getSubTask(){
+        return new ArrayList<>(subTaskList);
     }
 
     public void clearSubTasks(){
-        subTaskHashMap.clear();
+        subTaskList.clear();
     }
     public void removeSubtask(int id){
-        subTaskHashMap.remove(id);
+        subTaskList.remove(id);
     }
 }

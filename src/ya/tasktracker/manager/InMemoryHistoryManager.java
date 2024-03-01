@@ -1,12 +1,11 @@
 package ya.tasktracker.manager;
 
-import ya.tasktracker.task.AbstractTask;
-import ya.tasktracker.task.ITask;
+import ya.tasktracker.task.Task;
 
 import java.util.ArrayList;
 
 public final class InMemoryHistoryManager implements HistoryManager {
-    private final ArrayList<ITask> taskList ;
+    private final ArrayList<Task> taskList ;
 
     public  InMemoryHistoryManager(){
         taskList = new ArrayList<>(10);
@@ -14,7 +13,7 @@ public final class InMemoryHistoryManager implements HistoryManager {
 
 
     @Override
-    public void add(ITask task) {
+    public void add(Task task) {
         // если список заполнен полностью, удаляем первый элемент
         if(taskList.size()==10){
             taskList.remove(0);
@@ -23,7 +22,7 @@ public final class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<ITask> getHistory() {
+    public ArrayList<Task> getHistory() {
 
         return new ArrayList<>(taskList);
     }
