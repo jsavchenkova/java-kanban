@@ -1,6 +1,7 @@
 package ya.tasktracker.test;
 
 import org.junit.jupiter.api.Test;
+import ya.tasktracker.manager.HistoryManager;
 import ya.tasktracker.manager.Managers;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.Task;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
 
     @Test
-    void addTask() {
+    void addTaskTest() {
         Task task1 = new Task("1");
         Task task2 = new Task("2");
         Epic task3 = new Epic("3");
@@ -28,5 +29,20 @@ class InMemoryHistoryManagerTest {
         assertEquals(taskManager.getHistory().get(0), task2);
         assertEquals(taskManager.getHistory().get(1), task1);
         assertEquals(taskManager.getHistory().get(2), task3);
+    }
+
+    @Test
+    void removeTest(){
+        Task task = new Task("4");
+        Managers managers = new Managers();
+        TaskManager taskManager = managers.getDefault();
+        int id = taskManager.createTask(task);
+        HistoryManager historyManager =managers.getDefaultHistory();
+        historyManager.add(task);
+
+        historyManager.remove(id);
+
+        assertEquals(0,historyManager.getHistory().size());
+
     }
 }

@@ -35,7 +35,9 @@ public final class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void remove(int id) {
         Node node = taskList.get(id);
-        removeNode(node);
+        if(node != null) {
+            removeNode(node);
+        }
     }
 
     @Override
@@ -51,7 +53,12 @@ public final class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void removeNode(Node node){
-        node.getPrev().setNext(node.getNext());
+
+        if(node.getPrev()!=null) {
+            node.getPrev().setNext(node.getNext());
+        }else {
+            head = node.getNext();
+        }
         if(node.getNext() != null){
             node.getNext().setPrev(node.getPrev());
         }
