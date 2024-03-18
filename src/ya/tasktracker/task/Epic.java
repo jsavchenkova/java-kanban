@@ -50,6 +50,6 @@ public class Epic extends Task {
     }
 
     public void removeSubtask(int id) {
-        subTaskList.remove(id);
+        subTaskList.remove((Object)id);
     }
 }
