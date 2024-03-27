@@ -4,7 +4,6 @@ import ya.tasktracker.task.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class InMemoryHistoryManager implements HistoryManager {
@@ -19,23 +18,23 @@ public final class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if(taskList.containsKey(task.getId())){
+        if (taskList.containsKey(task.getId())) {
             removeNode(taskList.get(task.getId()));
         }
-        if(head == null){
+        if (head == null) {
             head = new Node(task);
             lastNode = head;
-        }else {
+        } else {
             lastNode.setNext(new Node(task, lastNode));
             lastNode = lastNode.getNext();
         }
-        taskList.put(task.getId(),lastNode);
+        taskList.put(task.getId(), lastNode);
     }
 
     @Override
     public void remove(int id) {
         Node node = taskList.get(id);
-        if(node != null) {
+        if (node != null) {
             removeNode(node);
         }
     }
@@ -44,7 +43,7 @@ public final class InMemoryHistoryManager implements HistoryManager {
     public ArrayList<Task> getHistory() {
         ArrayList<Task> list = new ArrayList<>();
         Node node = head;
-        while (node != null){
+        while (node != null) {
             list.add(node.getTask());
             node = node.getNext();
         }
@@ -52,14 +51,14 @@ public final class InMemoryHistoryManager implements HistoryManager {
         return list;
     }
 
-    private void removeNode(Node node){
+    private void removeNode(Node node) {
 
-        if(node.getPrev()!=null) {
+        if (node.getPrev() != null) {
             node.getPrev().setNext(node.getNext());
-        }else {
+        } else {
             head = node.getNext();
         }
-        if(node.getNext() != null){
+        if (node.getNext() != null) {
             node.getNext().setPrev(node.getPrev());
         }
         taskList.remove(node.getTask().getId());

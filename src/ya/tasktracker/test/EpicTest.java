@@ -32,7 +32,7 @@ class EpicTest {
     }
 
     @Test
-    void addSubTaskTest(){
+    void addSubTaskTest() {
         Epic epic = new Epic("epic_test_subTask");
         epic.setId(62);
         SubTask subTask = new SubTask("test_subTask");
@@ -45,7 +45,7 @@ class EpicTest {
     }
 
     @Test
-    void getSubTask(){
+    void getSubTask() {
         Epic epic = new Epic("epic_get_subtask");
         epic.setId(63);
         SubTask subTask64 = new SubTask("test_get_subtask");
@@ -56,12 +56,12 @@ class EpicTest {
         epic.addSubTask(subTask65);
 
         List<Integer> listSubTask = epic.getSubTask();
-        assertEquals(2,listSubTask.size());
+        assertEquals(2, listSubTask.size());
 
     }
 
     @Test
-    void clearSubTasks(){
+    void clearSubTasks() {
         Epic epic = new Epic("epic_clear_subtask");
         epic.setId(66);
         SubTask subTask67 = new SubTask("test_clear_subtask");
@@ -77,7 +77,7 @@ class EpicTest {
     }
 
     @Test
-    void removeSubTaskTest(){
+    void removeSubTaskTest() {
         Epic epic = new Epic("epic_clear_subtask");
         epic.setId(69);
         SubTask subTask70 = new SubTask("test_clear_subtask");

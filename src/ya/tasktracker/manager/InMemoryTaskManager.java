@@ -35,17 +35,17 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public void removeAllTasks() {
-        for(Task t: tasks.values()){
+        for (Task t : tasks.values()) {
             inMemoryHistoryManager.remove(t.getId());
         }
         tasks.clear();
     }
 
     public void removeAllEpics() {
-        for(SubTask st: subTasks.values()){
+        for (SubTask st : subTasks.values()) {
             inMemoryHistoryManager.remove(st.getId());
         }
-        for(Epic e: epics.values()){
+        for (Epic e : epics.values()) {
             inMemoryHistoryManager.remove(e.getId());
         }
         subTasks.clear();
@@ -57,7 +57,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.clearSubTasks();
             setEpicStatus(epic);
         }
-        for(SubTask st: subTasks.values()){
+        for (SubTask st : subTasks.values()) {
             inMemoryHistoryManager.remove(st.getId());
         }
         subTasks.clear();

@@ -7,17 +7,18 @@ public class Node {
     private Node prev;
     private Node next;
 
-    public Node(Task task, Node prev, Node next){
+    public Node(Task task, Node prev, Node next) {
         this.task = task;
         this.prev = prev;
         this.next = next;
     }
-    public Node (Task task, Node prev){
+
+    public Node(Task task, Node prev) {
         this.task = task;
         this.prev = prev;
     }
 
-    public Node (Task task){
+    public Node(Task task) {
         this.task = task;
     }
 
@@ -44,8 +45,6 @@ public class Node {
     public void setNext(Node next) {
         this.next = next;
     }
-
-
 
 
 }

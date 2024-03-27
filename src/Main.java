@@ -1,8 +1,6 @@
-import ya.tasktracker.manager.HistoryManager;
 import ya.tasktracker.manager.Managers;
 import ya.tasktracker.manager.TaskManager;
 import ya.tasktracker.task.Epic;
-import ya.tasktracker.manager.InMemoryTaskManager;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
@@ -43,7 +41,6 @@ public class Main {
         System.out.println(taskManager.getHistory());
         taskManager.deleteEpic(epicId);
         System.out.println(taskManager.getHistory());
-
 
 
     }

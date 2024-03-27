@@ -32,17 +32,17 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void removeTest(){
+    void removeTest() {
         Task task = new Task("4");
         Managers managers = new Managers();
         TaskManager taskManager = managers.getDefault();
         int id = taskManager.createTask(task);
-        HistoryManager historyManager =managers.getDefaultHistory();
+        HistoryManager historyManager = managers.getDefaultHistory();
         historyManager.add(task);
 
         historyManager.remove(id);
 
-        assertEquals(0,historyManager.getHistory().size());
+        assertEquals(0, historyManager.getHistory().size());
 
     }
 }

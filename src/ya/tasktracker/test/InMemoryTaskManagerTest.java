@@ -1,18 +1,17 @@
 package ya.tasktracker.test;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ya.tasktracker.manager.InMemoryHistoryManager;
+import ya.tasktracker.manager.InMemoryTaskManager;
+import ya.tasktracker.manager.TaskManager;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
-import ya.tasktracker.manager.InMemoryTaskManager;
-import ya.tasktracker.manager.TaskManager;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InMemoryTaskManagerTest {
 
@@ -46,7 +45,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getTasksTest(){
+    void getTasksTest() {
         Task task = new Task("task1");
         Task task2 = new Task("task2");
         taskManager.createTask(task);
@@ -58,7 +57,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getEpicsTest(){
+    void getEpicsTest() {
         Epic epic1 = new Epic("epic1");
         Epic epic2 = new Epic("epic2");
         taskManager.createEpic(epic1);
@@ -70,7 +69,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getSubTasTest(){
+    void getSubTasTest() {
         SubTask subTask1 = new SubTask("subTask1");
         SubTask subTask2 = new SubTask("subTask2");
         taskManager.createSubTask(subTask1);
@@ -82,12 +81,12 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeAllEpicsTest(){
+    void removeAllEpicsTest() {
         Epic epic3 = new Epic("epic3");
         Epic epic4 = new Epic("epic4");
         taskManager.createEpic(epic3);
         taskManager.createEpic(epic4);
-        SubTask  subTask3 = new SubTask("subTask3");
+        SubTask subTask3 = new SubTask("subTask3");
         SubTask subTask4 = new SubTask("subTask4");
         epic3.addSubTask(subTask3);
         epic4.addSubTask(subTask4);
@@ -100,7 +99,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void removeAllSubTasksTest(){
+    void removeAllSubTasksTest() {
         Epic epic5 = new Epic("epic5");
         taskManager.createEpic(epic5);
         SubTask subTask5 = new SubTask("subTask5");
