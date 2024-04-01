@@ -1,5 +1,3 @@
-package ya.tasktracker.test;
-
 import org.junit.jupiter.api.Test;
 import ya.tasktracker.task.Task;
 import ya.tasktracker.manager.InMemoryTaskManager;
