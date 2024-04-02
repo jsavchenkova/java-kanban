@@ -1,8 +1,11 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskType;
+
 import java.util.*;
 
 public class Epic extends Task {
+    private static final TaskType type = TaskType.EPIC;
     private final List<Integer> subTaskList;
 
     public Epic(String name) {

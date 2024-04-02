@@ -1,8 +1,11 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskType;
+
 import java.util.Objects;
 
 public class SubTask extends Task {
+    private static final TaskType type = TaskType.SUBTASK;
     private Integer parentId;
 
 
@@ -39,5 +42,8 @@ public class SubTask extends Task {
         return Objects.hash(super.hashCode(), parentId);
     }
 
-
+    @Override
+    public String serializeToString() {
+        return String.format("%s%d", super.serializeToString(), parentId);
+    }
 }

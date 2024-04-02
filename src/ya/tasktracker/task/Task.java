@@ -1,5 +1,7 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskType;
+
 import java.util.Objects;
 
 public class Task {
@@ -8,10 +10,18 @@ public class Task {
     private int id;
     private String name;
     private String description;
+    private static final TaskType type = TaskType.TASK;
 
     public Task(String name) {
         this.name = name;
         status = TaskStatus.NEW;
+    }
+
+    public Task(String[] params) {
+        id = Integer.parseInt(params[0]);
+        name = params[2];
+        status = TaskStatus.valueOf(params[3]);
+        description = params[4];
     }
 
     public int getId() {
@@ -73,5 +83,13 @@ public class Task {
         this.status = status;
     }
 
+    public String serializeToString() {
+        return String.format("%d,%s,%s,%s,%s,%s,", id, type, name, status, description);
+    }
+
+    Task fromString(String value) {
+        String[] vals = value.split(",");
+        return new Task(vals);
+    }
 
 }
