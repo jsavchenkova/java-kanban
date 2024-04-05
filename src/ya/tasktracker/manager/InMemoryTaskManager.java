@@ -2,24 +2,20 @@ package ya.tasktracker.manager;
 
 import ya.tasktracker.task.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, SubTask> subTasks;
+class InMemoryTaskManager implements TaskManager {
+    protected final Map<UUID, Task> tasks;
+    protected final Map<UUID, Epic> epics;
+    protected final Map<UUID, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
-    private final IndexTask index;
+
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subTasks = new HashMap<>();
         inMemoryHistoryManager = historyManager;
-        index = new IndexTask();
     }
 
     public List<Task> getTasks() {
@@ -64,46 +60,46 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    public Task getTask(int id) {
+    public Task getTask(UUID id) {
         Task task = tasks.get(id);
         if (task != null) {
-            inMemoryHistoryManager.add(task);
+            inMemoryHistoryManager.add(id);
         }
         return tasks.get(id);
     }
 
-    public Epic getEpic(int id) {
+    public Epic getEpic(UUID id) {
         Epic epic = epics.get(id);
         if (epic != null) {
-            inMemoryHistoryManager.add(epic);
+            inMemoryHistoryManager.add(id);
         }
         return epics.get(id);
     }
 
-    public SubTask getSubtask(int id) {
+    public SubTask getSubtask(UUID id) {
         SubTask subTask = subTasks.get(id);
         if (subTask != null) {
-            inMemoryHistoryManager.add(subTask);
+            inMemoryHistoryManager.add(id);
         }
         return subTasks.get(id);
     }
 
-    public int createTask(Task task) {
-        int id = index.getNextId();
+    public UUID createTask(Task task) {
+        UUID id = UUID.randomUUID();
         task.setId(id);
         tasks.put(task.getId(), task);
         return id;
     }
 
-    public int createEpic(Epic task) {
-        int id = index.getNextId();
+    public UUID createEpic(Epic task) {
+        UUID id = UUID.randomUUID();
         task.setId(id);
         updateEpic(task);
         return id;
     }
 
-    public int createSubTask(SubTask task) {
-        int id = index.getNextId();
+    public UUID createSubTask(SubTask task) {
+        UUID id = UUID.randomUUID();
         task.setId(id);
         updateSubTask(task);
         return id;
@@ -125,14 +121,14 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public void deleteTask(int id) {
+    public void deleteTask(UUID id) {
         inMemoryHistoryManager.remove(id);
         tasks.remove(id);
     }
 
-    public void deleteEpic(int id) {
+    public void deleteEpic(UUID id) {
         Epic epic = epics.get(id);
-        for (int taskId : epic.getSubTask()) {
+        for (UUID taskId : epic.getSubTask()) {
             inMemoryHistoryManager.remove(taskId);
             deleteSubTask(taskId);
         }
@@ -140,7 +136,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(id);
     }
 
-    public void deleteSubTask(int id) {
+    public void deleteSubTask(UUID id) {
         SubTask subTask = subTasks.get(id);
         epics.get(subTask.getParentId()).removeSubtask(subTask.getId());
         setEpicStatus(epics.get(subTask.getParentId()));
@@ -148,11 +144,11 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.remove(id);
     }
 
-    public List<Integer> getSubTasksByEpic(Epic epic) {
+    public List<UUID> getSubTasksByEpic(Epic epic) {
         return new ArrayList<>(epic.getSubTask());
     }
 
-    public List<Task> getHistory() {
+    public List<UUID> getHistory() {
         return inMemoryHistoryManager.getHistory();
     }
 
@@ -161,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
         int countNew = 0;
         int countInProgress = 0;
         int countDone = 0;
-        for (int subTaskId : epic.getSubTask()) {
+        for (UUID subTaskId : epic.getSubTask()) {
             switch (subTasks.get(subTaskId).getStatus()) {
                 case NEW:
                     countNew++;

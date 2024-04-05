@@ -5,6 +5,7 @@ import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.util.List;
+import java.util.UUID;
 
 /*Управление задачами*/
 public interface TaskManager {
@@ -21,17 +22,17 @@ public interface TaskManager {
 
     void removeAllSubTask();
 
-    Task getTask(int id);
+    Task getTask(UUID id);
 
-    Epic getEpic(int id);
+    Epic getEpic(UUID id);
 
-    SubTask getSubtask(int id);
+    SubTask getSubtask(UUID id);
 
-    int createTask(Task task);
+    UUID createTask(Task task);
 
-    int createEpic(Epic task);
+    UUID createEpic(Epic task);
 
-    int createSubTask(SubTask task);
+    UUID createSubTask(SubTask task);
 
     void updateTask(Task task);
 
@@ -39,15 +40,15 @@ public interface TaskManager {
 
     void updateSubTask(SubTask task);
 
-    void deleteTask(int id);
+    void deleteTask(UUID id);
 
     /*удалине эпика вместе с подзадачами*/
-    void deleteEpic(int id);
+    void deleteEpic(UUID id);
 
-    void deleteSubTask(int id);
+    void deleteSubTask(UUID id);
 
-    List<Integer> getSubTasksByEpic(Epic epic);
+    List<UUID> getSubTasksByEpic(Epic epic);
 
     /*история просмотра задач*/
-    List<Task> getHistory();
+    List<UUID> getHistory();
 }

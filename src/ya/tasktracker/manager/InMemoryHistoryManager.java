@@ -1,13 +1,12 @@
 package ya.tasktracker.manager;
 
-import ya.tasktracker.task.Task;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-public final class InMemoryHistoryManager implements HistoryManager {
-    private final Map<Integer, Node> taskList;
+class InMemoryHistoryManager implements HistoryManager {
+    protected final Map<UUID, Node> taskList;
     private Node head;
     private Node lastNode;
 
@@ -17,9 +16,9 @@ public final class InMemoryHistoryManager implements HistoryManager {
 
 
     @Override
-    public void add(Task task) {
-        if (taskList.containsKey(task.getId())) {
-            removeNode(taskList.get(task.getId()));
+    public void add(UUID task) {
+        if (taskList.containsKey(task)) {
+            removeNode(taskList.get(task));
         }
         if (head == null) {
             head = new Node(task);
@@ -28,11 +27,11 @@ public final class InMemoryHistoryManager implements HistoryManager {
             lastNode.setNext(new Node(task, lastNode));
             lastNode = lastNode.getNext();
         }
-        taskList.put(task.getId(), lastNode);
+        taskList.put(task, lastNode);
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(UUID id) {
         Node node = taskList.get(id);
         if (node != null) {
             removeNode(node);
@@ -40,8 +39,8 @@ public final class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        ArrayList<Task> list = new ArrayList<>();
+    public ArrayList<UUID> getHistory() {
+        ArrayList<UUID> list = new ArrayList<>();
         Node node = head;
         while (node != null) {
             list.add(node.getTask());
@@ -61,6 +60,6 @@ public final class InMemoryHistoryManager implements HistoryManager {
         if (node.getNext() != null) {
             node.getNext().setPrev(node.getPrev());
         }
-        taskList.remove(node.getTask().getId());
+        taskList.remove(node.getTask());
     }
 }

@@ -1,13 +1,12 @@
 package ya.tasktracker.manager;
 
-import ya.tasktracker.task.Task;
-
 import java.util.List;
+import java.util.UUID;
 
 public interface HistoryManager {
-    void add(Task task);
+    void add(UUID task);
 
-    void remove(int id);
+    void remove(UUID id);
 
-    List<Task> getHistory();
+    List<UUID> getHistory();
 }

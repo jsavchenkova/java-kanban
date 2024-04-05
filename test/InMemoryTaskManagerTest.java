@@ -1,13 +1,12 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ya.tasktracker.manager.InMemoryHistoryManager;
-import ya.tasktracker.manager.InMemoryTaskManager;
-import ya.tasktracker.manager.TaskManager;
+import ya.tasktracker.manager.*;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,28 +16,28 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void create() {
-        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
-        taskManager = new InMemoryTaskManager(historyManager);
+        Managers managers = new Managers();
+        taskManager = managers.getDefault();
     }
 
     @Test
     void createTaskTest() {
         Task task = new Task("task");
-        int id = taskManager.createTask(task);
+        UUID id = taskManager.createTask(task);
         assertEquals(taskManager.getTask(id), task);
     }
 
     @Test
     void createEpicTest() {
         Epic epic = new Epic("epic");
-        int id = taskManager.createEpic(epic);
+        UUID id = taskManager.createEpic(epic);
         assertEquals(taskManager.getEpic(id), epic);
     }
 
     @Test
     void createSubTaskTest() {
         SubTask subTask = new SubTask("subtask");
-        int id = taskManager.createSubTask(subTask);
+        UUID id = taskManager.createSubTask(subTask);
         assertEquals(taskManager.getSubtask(id), subTask);
     }
 

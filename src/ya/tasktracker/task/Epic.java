@@ -5,11 +5,16 @@ import ya.tasktracker.constants.TaskType;
 import java.util.*;
 
 public class Epic extends Task {
-    private static final TaskType type = TaskType.EPIC;
-    private final List<Integer> subTaskList;
+    private TaskType type = TaskType.EPIC;
+    private final List<UUID> subTaskList;
 
     public Epic(String name) {
         super(name);
+        subTaskList = new ArrayList<>();
+    }
+
+    public Epic(String[] params) {
+        super(params);
         subTaskList = new ArrayList<>();
     }
 
@@ -44,7 +49,7 @@ public class Epic extends Task {
         subTask.setParent(this);
     }
 
-    public List<Integer> getSubTask() {
+    public List<UUID> getSubTask() {
         return new ArrayList<>(subTaskList);
     }
 
@@ -52,7 +57,17 @@ public class Epic extends Task {
         subTaskList.clear();
     }
 
-    public void removeSubtask(int id) {
-        subTaskList.remove((Object)id);
+    public void removeSubtask(UUID id) {
+        subTaskList.remove((Object) id);
+    }
+
+    @Override
+    public String serializeToString() {
+        return String.format("%s,%s,%s,%s,%s,", getId(), type, getName(), getStatus(), getDescription());
+    }
+
+    Epic fromString(String value) {
+        String[] vals = value.split(",");
+        return new Epic(vals);
     }
 }
