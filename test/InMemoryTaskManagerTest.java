@@ -23,21 +23,21 @@ class InMemoryTaskManagerTest {
     @Test
     void createTaskTest() {
         Task task = new Task("task");
-        UUID id = taskManager.createTask(task);
+        int id = taskManager.createTask(task);
         assertEquals(taskManager.getTask(id), task);
     }
 
     @Test
     void createEpicTest() {
         Epic epic = new Epic("epic");
-        UUID id = taskManager.createEpic(epic);
+        int id = taskManager.createEpic(epic);
         assertEquals(taskManager.getEpic(id), epic);
     }
 
     @Test
     void createSubTaskTest() {
         SubTask subTask = new SubTask("subtask");
-        UUID id = taskManager.createSubTask(subTask);
+        int id = taskManager.createSubTask(subTask);
         assertEquals(taskManager.getSubtask(id), subTask);
     }
 

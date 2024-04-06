@@ -1,32 +1,30 @@
 package ya.tasktracker.manager;
 
-import java.util.UUID;
-
 public class Node {
-    private UUID task;
+    private int task;
     private Node prev;
     private Node next;
 
-    public Node(UUID task, Node prev, Node next) {
+    public Node(int task, Node prev, Node next) {
         this.task = task;
         this.prev = prev;
         this.next = next;
     }
 
-    public Node(UUID task, Node prev) {
+    public Node(int task, Node prev) {
         this.task = task;
         this.prev = prev;
     }
 
-    public Node(UUID task) {
+    public Node(int task) {
         this.task = task;
     }
 
-    public UUID getTask() {
+    public int getTask() {
         return task;
     }
 
-    public void setTask(UUID task) {
+    public void setTask(int task) {
         this.task = task;
     }
 

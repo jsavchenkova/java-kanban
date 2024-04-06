@@ -9,8 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
+// Менеджер истории, который хранит своё состояние в файле, и может быть восстановлен из файла
 class FileBackedHistoryManager extends InMemoryHistoryManager {
     private final File historyFile;
 
@@ -33,9 +33,35 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
         }
         String[] history = str.split(",");
         for (String h : history) {
-            historyManager.add(UUID.fromString(h));
+            historyManager.add(Integer.parseInt(h));
         }
         return historyManager;
+    }
+
+    @Override
+    public void add(int task) {
+        super.add(task);
+        save();
+    }
+
+    @Override
+    public void remove(int id) {
+        super.remove(id);
+        save();
+    }
+
+    public void save() {
+        try (FileWriter writer = new FileWriter(historyFile)) {
+            List<Integer> tasks = getHistory();
+            StringBuilder builder = new StringBuilder();
+            for (int t : tasks) {
+                builder.append(t);
+                builder.append(",");
+            }
+            writer.append(builder.toString());
+        } catch (IOException e) {
+            throw new ManagerSaveException(e.getCause());
+        }
     }
 
     private Path createFile(Path path) {
@@ -47,31 +73,5 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
             throw new ManagerSaveException(e.getCause());
         }
         return path;
-    }
-
-    @Override
-    public void add(UUID task) {
-        super.add(task);
-        save();
-    }
-
-    @Override
-    public void remove(UUID id) {
-        super.remove(id);
-        save();
-    }
-
-    public void save() {
-        try (FileWriter writer = new FileWriter(historyFile)) {
-            List<UUID> tasks = getHistory();
-            StringBuilder builder = new StringBuilder();
-            for (UUID t : tasks) {
-                builder.append(t);
-                builder.append(",");
-            }
-            writer.append(builder.toString());
-        } catch (IOException e) {
-            throw new ManagerSaveException(e.getCause());
-        }
     }
 }

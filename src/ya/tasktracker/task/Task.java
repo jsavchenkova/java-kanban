@@ -3,15 +3,13 @@ package ya.tasktracker.task;
 import ya.tasktracker.constants.TaskType;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class Task {
 
     private TaskStatus status;
-    private UUID id;
+    private int id;
     private String name;
     private String description;
-    private static final TaskType type = TaskType.TASK;
 
     public Task(String name) {
         this.name = name;
@@ -19,17 +17,17 @@ public class Task {
     }
 
     public Task(String[] params) {
-        id = UUID.fromString(params[0]);
+        id = Integer.parseInt(params[0]);
         name = params[2];
         status = TaskStatus.valueOf(params[3]);
         description = params[4];
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -84,7 +82,7 @@ public class Task {
     }
 
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,", getId(), type, getName(), getStatus(), getDescription());
+        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.TASK, getName(), getStatus(), getDescription());
     }
 
     Task fromString(String value) {

@@ -8,7 +8,6 @@ import ya.tasktracker.task.Task;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 public class Main {
 
@@ -16,20 +15,18 @@ public class Main {
         System.out.println("Поехали!");
 
         Managers managers = new Managers();
-//        TaskManager taskManager = managers.getDefault();
-//        TaskManager taskManager = managers.getFileBackedManager();
+
         File taskFile = Paths.get("src", "resources", "1t.csv").toFile();
         File historyFile = Paths.get("src", "resources", "1h.csv").toFile();
-//
         TaskManager taskManager = FileBackedTaskManager.loadFromFile(taskFile, historyFile);
         System.out.println(taskManager.getHistory());
-        UUID taskId1 = taskManager.createTask(new Task("первая задача"));
+        int taskId1 = taskManager.createTask(new Task("первая задача"));
         System.out.println(taskManager.getHistory());
-        UUID taskId2 = taskManager.createTask(new Task("вторая задача"));
+        int taskId2 = taskManager.createTask(new Task("вторая задача"));
         System.out.println(taskManager.getHistory());
-        UUID epicId2 = taskManager.createEpic(new Epic("пустой эпик"));
+        int epicId2 = taskManager.createEpic(new Epic("пустой эпик"));
         System.out.println(taskManager.getHistory());
-        UUID epicId = taskManager.createEpic(new Epic("эпик с подзадачами"));
+        int epicId = taskManager.createEpic(new Epic("эпик с подзадачами"));
         System.out.println(taskManager.getHistory());
         Epic epic = taskManager.getEpic(epicId);
         System.out.println(taskManager.getHistory());

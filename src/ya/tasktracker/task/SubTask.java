@@ -3,12 +3,9 @@ package ya.tasktracker.task;
 import ya.tasktracker.constants.TaskType;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class SubTask extends Task {
-    private final TaskType type = TaskType.SUBTASK;
-    private UUID parentId;
-
+    private Integer parentId;
 
     public SubTask(String name) {
         super(name);
@@ -16,10 +13,10 @@ public class SubTask extends Task {
 
     public SubTask(String[] params) {
         super(params);
-        parentId = params[5].equals("null") ? null : UUID.fromString(params[5]);
+        parentId = params[5].equals("null") ? null : Integer.parseInt(params[5]);
     }
 
-    public UUID getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
@@ -50,6 +47,6 @@ public class SubTask extends Task {
 
     @Override
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,%s", getId(), type, getName(), getStatus(), getDescription(), getParentId());
+        return String.format("%s,%s,%s,%s,%s,%s", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(), getParentId());
     }
 }

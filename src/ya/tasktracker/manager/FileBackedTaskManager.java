@@ -13,8 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
+// Менеджер задач, который хранит своё состояние в файле, и может быть восстановлен из файла
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File taskFile;
 
@@ -28,20 +28,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         taskFile = createFile(file.toPath()).toFile();
     }
 
-    private Path createFile(Path path) {
-        try {
-            if (!Files.exists(path)) {
-                path = Files.createFile(path);
-            }
-        } catch (IOException e) {
-            throw new ManagerSaveException(e.getCause());
-        }
-        return path;
-    }
-
     public static FileBackedTaskManager loadFromFile(File file, File fileHistory) throws IOException {
         FileBackedHistoryManager historyManager = FileBackedHistoryManager.loadFromFile(fileHistory);
-        FileBackedTaskManager manager = new FileBackedTaskManager(historyManager,file);
+        FileBackedTaskManager manager = new FileBackedTaskManager(historyManager, file);
         List<String> lines = Files.readAllLines(Paths.get(file.toURI()));
         if (lines.size() < 2) {
             manager.save();
@@ -107,38 +96,38 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
-    public Task getTask(UUID id) {
+    public Task getTask(int id) {
         Task task = super.getTask(id);
         save();
         return task;
     }
 
-    public Epic getEpic(UUID id) {
+    public Epic getEpic(int id) {
         Epic epic = super.getEpic(id);
         save();
         return epic;
     }
 
-    public SubTask getSubtask(UUID id) {
+    public SubTask getSubtask(int id) {
         SubTask subTask = super.getSubtask(id);
         save();
         return subTask;
     }
 
-    public UUID createTask(Task task) {
-        UUID id = super.createTask(task);
+    public int createTask(Task task) {
+        int id = super.createTask(task);
         save();
         return id;
     }
 
-    public UUID createEpic(Epic task) {
-        UUID id = super.createEpic(task);
+    public int createEpic(Epic task) {
+        int id = super.createEpic(task);
         save();
         return id;
     }
 
-    public UUID createSubTask(SubTask task) {
-        UUID id = super.createSubTask(task);
+    public int createSubTask(SubTask task) {
+        int id = super.createSubTask(task);
         save();
         return id;
     }
@@ -153,18 +142,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
-    public void deleteTask(UUID id) {
+    public void deleteTask(int id) {
         super.deleteTask(id);
         save();
     }
 
-    public void deleteEpic(UUID id) {
+    public void deleteEpic(int id) {
         super.deleteEpic(id);
         save();
     }
 
-    public void deleteSubTask(UUID id) {
+    public void deleteSubTask(int id) {
         super.deleteSubTask(id);
         save();
+    }
+
+    private Path createFile(Path path) {
+        try {
+            if (!Files.exists(path)) {
+                path = Files.createFile(path);
+            }
+        } catch (IOException e) {
+            throw new ManagerSaveException(e.getCause());
+        }
+        return path;
     }
 }

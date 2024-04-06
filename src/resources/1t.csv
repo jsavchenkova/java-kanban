@@ -1,8 +1,8 @@
 id,type,name,status,description,epic
-22aba45a-cee7-48e5-979b-44269903faee,TASK,вторая задача,NEW,описание,
-903db164-5cd5-4519-9dcd-09d255e63bfa,TASK,первая задача,NEW,,
-60e5e307-9c2f-4565-b8ea-daeada01f1c1,EPIC,эпик с подзадачами,NEW,,
-d83cfb41-88a7-4b3a-be36-999b80c66ec4,EPIC,пустой эпик,NEW,описание эпика,
-b556acfb-46e5-4780-ada1-e6cefd6d7f99,SUBTASK,первая подзадача,NEW,,60e5e307-9c2f-4565-b8ea-daeada01f1c1
-0cd710a2-a6c9-4c8a-9dbb-761ee11e5b57,SUBTASK,вторая подзадача,NEW,описание подзадачи,60e5e307-9c2f-4565-b8ea-daeada01f1c1
-cde1f1b2-46d0-463a-b558-48b21746d439,SUBTASK,третья подзадача,NEW,,null
+0,TASK,первая задача,NEW,,
+1,TASK,вторая задача,NEW,,
+2,EPIC,пустой эпик,NEW,,
+3,EPIC,эпик с подзадачами,NEW,,
+4,SUBTASK,первая подзадача,NEW,,3
+5,SUBTASK,вторая подзадача,NEW,,3
+6,SUBTASK,третья подзадача,NEW,,null

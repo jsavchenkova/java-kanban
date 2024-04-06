@@ -1,13 +1,13 @@
 import org.junit.jupiter.api.Test;
 import ya.tasktracker.manager.HistoryManager;
 import ya.tasktracker.manager.Managers;
+import ya.tasktracker.manager.TaskManager;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.Task;
-import ya.tasktracker.manager.TaskManager;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InMemoryHistoryManagerTest {
 
@@ -18,9 +18,9 @@ class InMemoryHistoryManagerTest {
         Epic task3 = new Epic("3");
         Managers managers = new Managers();
         TaskManager taskManager = managers.getDefault();
-        UUID id1 = taskManager.createTask(task1);
-        UUID id2 = taskManager.createTask(task2);
-        UUID id3 = taskManager.createEpic(task3);
+        int id1 = taskManager.createTask(task1);
+        int id2 = taskManager.createTask(task2);
+        int id3 = taskManager.createEpic(task3);
         taskManager.getTask(id2);
         taskManager.getTask(id1);
         taskManager.getEpic(id3);
@@ -36,7 +36,7 @@ class InMemoryHistoryManagerTest {
         Task task = new Task("4");
         Managers managers = new Managers();
         TaskManager taskManager = managers.getDefault();
-        UUID id = taskManager.createTask(task);
+        int id = taskManager.createTask(task);
         HistoryManager historyManager = managers.getDefaultHistory();
         historyManager.add(id);
 

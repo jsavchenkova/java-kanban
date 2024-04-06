@@ -15,7 +15,7 @@ class ManagersTest {
 
         TaskManager taskManager = managers.getDefault();
         Task task = new Task("name");
-        UUID id = taskManager.createTask(task);
+        int id = taskManager.createTask(task);
 
         assertEquals(taskManager.getTask(id), task);
     }

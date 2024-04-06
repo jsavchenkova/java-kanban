@@ -33,8 +33,8 @@ class EpicTest {
     @Test
     void addSubTaskTest() {
         Epic epic = new Epic("epic_test_subTask");
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
+        int id1 = 1;
+        int id2 = 2;
         epic.setId(id1);
         SubTask subTask = new SubTask("test_subTask");
         subTask.setId(id2);
@@ -47,9 +47,9 @@ class EpicTest {
 
     @Test
     void getSubTask() {
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
-        UUID id3 = UUID.randomUUID();
+        int id1 = 3;
+        int id2 = 4;
+        int id3 = 5;
         Epic epic = new Epic("epic_get_subtask");
         epic.setId(id1);
         SubTask subTask64 = new SubTask("test_get_subtask");
@@ -59,16 +59,16 @@ class EpicTest {
         epic.addSubTask(subTask64);
         epic.addSubTask(subTask65);
 
-        List<UUID> listSubTask = epic.getSubTask();
+        List<Integer> listSubTask = epic.getSubTask();
         assertEquals(2, listSubTask.size());
 
     }
 
     @Test
     void clearSubTasks() {
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
-        UUID id3 = UUID.randomUUID();
+        int id1 = 6;
+        int id2 = 7;
+        int  id3 = 8;
         Epic epic = new Epic("epic_clear_subtask");
         epic.setId(id1);
         SubTask subTask67 = new SubTask("test_clear_subtask");
@@ -85,9 +85,9 @@ class EpicTest {
 
     @Test
     void removeSubTaskTest() {
-        UUID id1 = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
-        UUID id3 = UUID.randomUUID();
+        int id1 = 9;
+        int id2 = 10;
+        int id3 = 11;
         Epic epic = new Epic("epic_clear_subtask");
         epic.setId(id1);
         SubTask subTask70 = new SubTask("test_clear_subtask");
