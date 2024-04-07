@@ -12,7 +12,7 @@ class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Epic> epics;
     protected final Map<Integer, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
-    private final IndexTask indexTask;
+    protected final IndexTask indexTask;
 
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -68,7 +68,7 @@ class InMemoryTaskManager implements TaskManager {
     public Task getTask(int id) {
         Task task = tasks.get(id);
         if (task != null) {
-            inMemoryHistoryManager.add(id);
+            inMemoryHistoryManager.add(task);
         }
         return tasks.get(id);
     }
@@ -76,7 +76,7 @@ class InMemoryTaskManager implements TaskManager {
     public Epic getEpic(int id) {
         Epic epic = epics.get(id);
         if (epic != null) {
-            inMemoryHistoryManager.add(id);
+            inMemoryHistoryManager.add(epic);
         }
         return epics.get(id);
     }
@@ -84,7 +84,7 @@ class InMemoryTaskManager implements TaskManager {
     public SubTask getSubtask(int id) {
         SubTask subTask = subTasks.get(id);
         if (subTask != null) {
-            inMemoryHistoryManager.add(id);
+            inMemoryHistoryManager.add(subTask);
         }
         return subTasks.get(id);
     }
@@ -153,7 +153,7 @@ class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(epic.getSubTask());
     }
 
-    public List<Integer> getHistory() {
+    public List<Task> getHistory() {
         return inMemoryHistoryManager.getHistory();
     }
 

@@ -1,30 +1,32 @@
 package ya.tasktracker.manager;
 
+import ya.tasktracker.task.Task;
+
 public class Node {
-    private int task;
+    private Task task;
     private Node prev;
     private Node next;
 
-    public Node(int task, Node prev, Node next) {
+    public Node(Task task, Node prev, Node next) {
         this.task = task;
         this.prev = prev;
         this.next = next;
     }
 
-    public Node(int task, Node prev) {
+    public Node(Task task, Node prev) {
         this.task = task;
         this.prev = prev;
     }
 
-    public Node(int task) {
+    public Node(Task task) {
         this.task = task;
     }
 
-    public int getTask() {
+    public Task getTask() {
         return task;
     }
 
-    public void setTask(int task) {
+    public void setTask(Task task) {
         this.task = task;
     }
 

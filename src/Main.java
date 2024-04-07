@@ -35,6 +35,8 @@ public class Main {
         epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("вторая подзадача"))));
         System.out.println(taskManager.getHistory());
         epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("третья подзадача"))));
+        taskManager.getEpic(epicId);
+        System.out.println(taskManager.getHistory());
 
         taskFile = Paths.get("src", "resources", "empty.csv").toFile();
         historyFile = Paths.get("src", "resources", "empty_history.csv").toFile();

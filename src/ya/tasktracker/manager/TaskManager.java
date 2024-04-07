@@ -49,5 +49,5 @@ public interface TaskManager {
     List<Integer> getSubTasksByEpic(Epic epic);
 
     /*история просмотра задач*/
-    List<Integer> getHistory();
+    List<Task> getHistory();
 }

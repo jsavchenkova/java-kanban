@@ -1,6 +1,7 @@
 package ya.tasktracker.manager;
 
 import ya.tasktracker.exceptions.ManagerSaveException;
+import ya.tasktracker.task.Task;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -24,22 +25,8 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
         historyFile = createFile(file.toPath()).toFile();
     }
 
-    public static FileBackedHistoryManager loadFromFile(File fileHistory) throws IOException {
-        FileBackedHistoryManager historyManager = new FileBackedHistoryManager(fileHistory);
-        String str = Files.readString(Paths.get(fileHistory.toURI()));
-        if (str.isBlank()) {
-            historyManager.save();
-            return historyManager;
-        }
-        String[] history = str.split(",");
-        for (String h : history) {
-            historyManager.add(Integer.parseInt(h));
-        }
-        return historyManager;
-    }
-
     @Override
-    public void add(int task) {
+    public void add(Task task) {
         super.add(task);
         save();
     }
@@ -52,10 +39,10 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
 
     public void save() {
         try (FileWriter writer = new FileWriter(historyFile)) {
-            List<Integer> tasks = getHistory();
+            List<Task> tasks = getHistory();
             StringBuilder builder = new StringBuilder();
-            for (int t : tasks) {
-                builder.append(t);
+            for (Task t : tasks) {
+                builder.append(t.getId());
                 builder.append(",");
             }
             writer.append(builder.toString());

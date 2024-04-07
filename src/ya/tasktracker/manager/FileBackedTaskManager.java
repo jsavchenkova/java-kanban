@@ -29,7 +29,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static FileBackedTaskManager loadFromFile(File file, File fileHistory) throws IOException {
-        FileBackedHistoryManager historyManager = FileBackedHistoryManager.loadFromFile(fileHistory);
+        int maxId = 0;
+        FileBackedHistoryManager historyManager = new FileBackedHistoryManager(fileHistory);
         FileBackedTaskManager manager = new FileBackedTaskManager(historyManager, file);
         List<String> lines = Files.readAllLines(Paths.get(file.toURI()));
         if (lines.size() < 2) {
@@ -40,7 +41,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         lines.remove(0);
         for (String l : lines) {
             String[] str = l.split(",", -1);
-
+            if (maxId < Integer.parseInt(str[0])) {
+                maxId = Integer.parseInt(str[0]);
+            }
             switch (TaskType.valueOf(str[1])) {
                 case TASK:
                     Task task = new Task(str);
@@ -54,6 +57,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     SubTask subTask = new SubTask(str);
                     manager.subTasks.put(subTask.getId(), subTask);
                     break;
+            }
+        }
+        manager.indexTask.setId(maxId + 1);
+        // Считываем историю из файла
+        String str = Files.readString(Paths.get(fileHistory.toURI()));
+        if (str.isBlank()) {
+            return manager;
+        }
+        String[] history = str.split(",");
+        for (String h : history) {
+            if (manager.tasks.containsKey(Integer.parseInt(h))) {
+                manager.getTask(Integer.parseInt(h));
+                continue;
+            } else if (manager.epics.containsKey(Integer.parseInt(h))) {
+                manager.getEpic(Integer.parseInt(h));
+                continue;
+            } else if (manager.subTasks.containsKey(Integer.parseInt(h))) {
+                manager.getSubtask(Integer.parseInt(h));
             }
         }
         return manager;
