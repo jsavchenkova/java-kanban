@@ -1,13 +1,19 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskType;
+
 import java.util.Objects;
 
 public class SubTask extends Task {
     private Integer parentId;
 
-
     public SubTask(String name) {
         super(name);
+    }
+
+    public SubTask(String[] params) {
+        super(params);
+        parentId = params[5].equals("null") ? null : Integer.parseInt(params[5]);
     }
 
     public Integer getParentId() {
@@ -39,5 +45,8 @@ public class SubTask extends Task {
         return Objects.hash(super.hashCode(), parentId);
     }
 
-
+    @Override
+    public String serializeToString() {
+        return String.format("%s,%s,%s,%s,%s,%s", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(), getParentId());
+    }
 }

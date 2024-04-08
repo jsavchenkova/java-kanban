@@ -1,5 +1,7 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskType;
+
 import java.util.*;
 
 public class Epic extends Task {
@@ -7,6 +9,11 @@ public class Epic extends Task {
 
     public Epic(String name) {
         super(name);
+        subTaskList = new ArrayList<>();
+    }
+
+    public Epic(String[] params) {
+        super(params);
         subTaskList = new ArrayList<>();
     }
 
@@ -50,6 +57,16 @@ public class Epic extends Task {
     }
 
     public void removeSubtask(int id) {
-        subTaskList.remove((Object)id);
+        subTaskList.remove((Object) id);
+    }
+
+    @Override
+    public String serializeToString() {
+        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.EPIC, getName(), getStatus(), getDescription());
+    }
+
+    Epic fromString(String value) {
+        String[] vals = value.split(",");
+        return new Epic(vals);
     }
 }

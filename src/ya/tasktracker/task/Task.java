@@ -1,5 +1,7 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskType;
+
 import java.util.Objects;
 
 public class Task {
@@ -12,6 +14,13 @@ public class Task {
     public Task(String name) {
         this.name = name;
         status = TaskStatus.NEW;
+    }
+
+    public Task(String[] params) {
+        id = Integer.parseInt(params[0]);
+        name = params[2];
+        status = TaskStatus.valueOf(params[3]);
+        description = params[4];
     }
 
     public int getId() {
@@ -38,7 +47,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     @Override
     public String toString() {
@@ -73,5 +81,13 @@ public class Task {
         this.status = status;
     }
 
+    public String serializeToString() {
+        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.TASK, getName(), getStatus(), getDescription());
+    }
+
+    Task fromString(String value) {
+        String[] vals = value.split(",");
+        return new Task(vals);
+    }
 
 }

@@ -7,19 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, SubTask> subTasks;
+class InMemoryTaskManager implements TaskManager {
+    protected final Map<Integer, Task> tasks;
+    protected final Map<Integer, Epic> epics;
+    protected final Map<Integer, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
-    private final IndexTask index;
+    protected final IndexTask indexTask;
+
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subTasks = new HashMap<>();
         inMemoryHistoryManager = historyManager;
-        index = new IndexTask();
+        indexTask = new IndexTask();
     }
 
     public List<Task> getTasks() {
@@ -89,21 +90,21 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public int createTask(Task task) {
-        int id = index.getNextId();
+        int id = indexTask.getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
         return id;
     }
 
     public int createEpic(Epic task) {
-        int id = index.getNextId();
+        int id = indexTask.getNextId();
         task.setId(id);
         updateEpic(task);
         return id;
     }
 
     public int createSubTask(SubTask task) {
-        int id = index.getNextId();
+        int id = indexTask.getNextId();
         task.setId(id);
         updateSubTask(task);
         return id;

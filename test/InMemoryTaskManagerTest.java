@@ -1,13 +1,12 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ya.tasktracker.manager.InMemoryHistoryManager;
-import ya.tasktracker.manager.InMemoryTaskManager;
-import ya.tasktracker.manager.TaskManager;
+import ya.tasktracker.manager.*;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,8 +16,8 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void create() {
-        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
-        taskManager = new InMemoryTaskManager(historyManager);
+        Managers managers = new Managers();
+        taskManager = managers.getDefault();
     }
 
     @Test

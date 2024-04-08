@@ -4,10 +4,11 @@ import ya.tasktracker.task.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public final class InMemoryHistoryManager implements HistoryManager {
-    private final Map<Integer, Node> taskList;
+class InMemoryHistoryManager implements HistoryManager {
+    protected final Map<Integer, Node> taskList;
     private Node head;
     private Node lastNode;
 
@@ -40,8 +41,8 @@ public final class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        ArrayList<Task> list = new ArrayList<>();
+    public List<Task> getHistory() {
+        List<Task> list = new ArrayList<>();
         Node node = head;
         while (node != null) {
             list.add(node.getTask());
@@ -61,6 +62,6 @@ public final class InMemoryHistoryManager implements HistoryManager {
         if (node.getNext() != null) {
             node.getNext().setPrev(node.getPrev());
         }
-        taskList.remove(node.getTask().getId());
+        taskList.remove(node.getTask());
     }
 }
