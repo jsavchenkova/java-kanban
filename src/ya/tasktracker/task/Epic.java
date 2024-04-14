@@ -2,10 +2,12 @@ package ya.tasktracker.task;
 
 import ya.tasktracker.constants.TaskType;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Epic extends Task {
     private final List<Integer> subTaskList;
+    private LocalDateTime endTime;
 
     public Epic(String name) {
         super(name);
@@ -15,6 +17,15 @@ public class Epic extends Task {
     public Epic(String[] params) {
         super(params);
         subTaskList = new ArrayList<>();
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override

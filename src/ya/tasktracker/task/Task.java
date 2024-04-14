@@ -2,6 +2,8 @@ package ya.tasktracker.task;
 
 import ya.tasktracker.constants.TaskType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -10,6 +12,8 @@ public class Task {
     private int id;
     private String name;
     private String description;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(String name) {
         this.name = name;
@@ -46,6 +50,26 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plusSeconds(duration.getSeconds());
     }
 
     @Override
