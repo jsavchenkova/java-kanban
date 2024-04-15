@@ -4,6 +4,7 @@ import ya.tasktracker.constants.TaskType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -15,16 +16,30 @@ public class Task {
     private Duration duration;
     private LocalDateTime startTime;
 
+    private DateTimeFormatter formatter;
+
+    public Task(){
+        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
+    }
+
     public Task(String name) {
+        super();
         this.name = name;
         status = TaskStatus.NEW;
     }
 
     public Task(String[] params) {
+        super();
         id = Integer.parseInt(params[0]);
         name = params[2];
         status = TaskStatus.valueOf(params[3]);
         description = params[4];
+        if(!params[6].isBlank()) {
+            startTime = LocalDateTime.parse(params[6], formatter);
+        }
+        if(!params[7].isBlank()) {
+            duration = Duration.ofSeconds(Long.parseLong(params[7]));
+        }
     }
 
     public int getId() {
@@ -106,7 +121,17 @@ public class Task {
     }
 
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.TASK, getName(), getStatus(), getDescription());
+        String start = null;
+        String finish = null;
+        Long duration = null;
+        if(getStartTime()!=null && getDuration() != null){
+            start = getStartTime().format(formatter);
+            finish = getEndTime().format(formatter);
+            duration = getDuration().getSeconds();
+        }
+
+        return String.format("%s,%s,%s,%s,%s,,%s,%s,%d", getId(), TaskType.TASK, getName(), getStatus(), getDescription(),
+                start, finish,duration);
     }
 
     Task fromString(String value) {

@@ -3,6 +3,7 @@ package ya.tasktracker.task;
 import ya.tasktracker.constants.TaskType;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Epic extends Task {
@@ -73,7 +74,18 @@ public class Epic extends Task {
 
     @Override
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.EPIC, getName(), getStatus(), getDescription());
+        String start = null;
+        String finish = null;
+        Long duration = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
+        if(getStartTime()!=null && getDuration() != null){
+            start = getStartTime().format(formatter);
+            finish = getEndTime().format(formatter);
+            duration = getDuration().getSeconds();
+        }
+
+        return String.format("%s,%s,%s,%s,%s,,%s,%s,%d", getId(), TaskType.EPIC, getName(), getStatus(), getDescription(),
+                start, finish,duration);
     }
 
     Epic fromString(String value) {
