@@ -5,6 +5,7 @@ import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.util.List;
+import java.util.TreeSet;
 
 /*Управление задачами*/
 public interface TaskManager {
@@ -50,4 +51,6 @@ public interface TaskManager {
 
     /*история просмотра задач*/
     List<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
 }
