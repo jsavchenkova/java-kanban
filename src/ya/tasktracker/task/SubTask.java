@@ -48,17 +48,17 @@ public class SubTask extends Task {
 
     @Override
     public String serializeToString() {
-        String start = null;
-        String finish = null;
-        Long duration = null;
+        String start = "";
+        String finish = "";
+        String duration = "";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
-        if(getStartTime()!=null && getDuration() != null){
+        if (getStartTime() != null && getDuration() != null) {
             start = getStartTime().format(formatter);
             finish = getEndTime().format(formatter);
-            duration = getDuration().getSeconds();
+            duration = String.valueOf(getDuration().getSeconds());
         }
 
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(),
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(),
                 getParentId(), start, finish,duration);
     }
 }

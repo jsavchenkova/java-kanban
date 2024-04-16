@@ -74,18 +74,18 @@ public class Epic extends Task {
 
     @Override
     public String serializeToString() {
-        String start = null;
-        String finish = null;
-        Long duration = null;
+        String start = "";
+        String finish = "";
+        String duration = "";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
-        if(getStartTime()!=null && getDuration() != null){
+        if (getStartTime() != null && getDuration() != null) {
             start = getStartTime().format(formatter);
             finish = getEndTime().format(formatter);
-            duration = getDuration().getSeconds();
+            duration = String.valueOf(getDuration().getSeconds());
         }
 
-        return String.format("%s,%s,%s,%s,%s,,%s,%s,%d", getId(), TaskType.EPIC, getName(), getStatus(), getDescription(),
-                start, finish,duration);
+        return String.format("%s,%s,%s,%s,%s,,%s,%s,%s", getId(), TaskType.EPIC, getName(), getStatus(), getDescription(),
+                start, finish, duration);
     }
 
     Epic fromString(String value) {

@@ -159,8 +159,20 @@ class InMemoryTaskManager implements TaskManager {
         return inMemoryHistoryManager.getHistory();
     }
 
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        TreeSet<Task> prioritizedList = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+        tasks.values().stream()
+                .filter(x -> x.getStartTime() != null)
+                .forEach(prioritizedList::add);
+
+        subTasks.values().stream()
+                .filter(x -> x.getStartTime() != null)
+                .forEach(prioritizedList::add);
+        return prioritizedList;
+    }
+
     private void setEpicStatus(Epic epic) {
-        TaskStatus status;
         int countNew = 0;
         int countInProgress = 0;
         int countDone = 0;
@@ -188,7 +200,7 @@ class InMemoryTaskManager implements TaskManager {
 
     private void setEpicStartTime(Epic epic) {
         Optional<LocalDateTime> minStartTime = epic.getSubTask().stream()
-                .map(x -> subTasks.get(x))
+                .map(subTasks::get)
                 .filter(x -> x.getStartTime() != null && x.getDuration() != null)
                 .map(SubTask::getStartTime)
                 .min(LocalDateTime::compareTo);
@@ -201,7 +213,7 @@ class InMemoryTaskManager implements TaskManager {
 
     private void setEpicDuration(Epic epic) {
         long sumDuration = epic.getSubTask().stream()
-                .map(x -> subTasks.get(x))
+                .map(subTasks::get)
                 .filter(x -> x.getStartTime() != null && x.getDuration() != null)
                 .map(SubTask::getDuration)
                 .mapToLong(Duration::getSeconds).sum();
@@ -210,7 +222,7 @@ class InMemoryTaskManager implements TaskManager {
 
     private void setEpicEndTime(Epic epic) {
         Optional<LocalDateTime> maxEndTime = epic.getSubTask().stream()
-                .map(x -> subTasks.get(x))
+                .map(subTasks::get)
                 .filter(x -> x.getStartTime() != null && x.getDuration() != null)
                 .map(SubTask::getEndTime)
                 .max(LocalDateTime::compareTo);

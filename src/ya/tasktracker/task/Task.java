@@ -18,27 +18,27 @@ public class Task {
 
     private DateTimeFormatter formatter;
 
-    public Task(){
-        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
+    public Task() {
+        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
     }
 
     public Task(String name) {
-        super();
+        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
         this.name = name;
         status = TaskStatus.NEW;
     }
 
     public Task(String[] params) {
-        super();
+        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
         id = Integer.parseInt(params[0]);
         name = params[2];
         status = TaskStatus.valueOf(params[3]);
         description = params[4];
-        if(!params[6].isBlank()) {
+        if (!params[6].isBlank()) {
             startTime = LocalDateTime.parse(params[6], formatter);
         }
-        if(!params[7].isBlank()) {
-            duration = Duration.ofSeconds(Long.parseLong(params[7]));
+        if (!params[7].isBlank()) {
+            duration = Duration.ofSeconds(Long.parseLong(params[8]));
         }
     }
 
@@ -121,17 +121,17 @@ public class Task {
     }
 
     public String serializeToString() {
-        String start = null;
-        String finish = null;
-        Long duration = null;
-        if(getStartTime()!=null && getDuration() != null){
+        String start = "";
+        String finish = "";
+        String duration = "";
+        if (getStartTime() != null && getDuration() != null) {
             start = getStartTime().format(formatter);
             finish = getEndTime().format(formatter);
-            duration = getDuration().getSeconds();
+            duration = String.valueOf(getDuration().getSeconds());
         }
 
-        return String.format("%s,%s,%s,%s,%s,,%s,%s,%d", getId(), TaskType.TASK, getName(), getStatus(), getDescription(),
-                start, finish,duration);
+        return String.format("%s,%s,%s,%s,%s,,%s,%s,%s", getId(), TaskType.TASK, getName(), getStatus(), getDescription(),
+                start, finish, duration);
     }
 
     Task fromString(String value) {

@@ -1,12 +1,14 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ya.tasktracker.manager.*;
+import ya.tasktracker.manager.Managers;
+import ya.tasktracker.manager.TaskManager;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -109,6 +111,24 @@ class InMemoryTaskManagerTest {
         assertEquals(0, taskManager.getSubTasks().size());
         assertEquals(0, epic5.getSubTask().size());
         assertEquals(0, taskManager.getHistory().size());
+    }
+
+    @Test
+    void getPrioritizedTasksTest() {
+        Task task1s = new Task("task1s");
+        task1s.setStartTime(LocalDateTime.now().plusHours(1));
+        taskManager.createTask(task1s);
+        Task task2s = new Task("task2s");
+        taskManager.createTask(task2s);
+        SubTask subTask1s = new SubTask("subTask1s");
+        subTask1s.setStartTime(LocalDateTime.now());
+        taskManager.createSubTask(subTask1s);
+
+        TreeSet<Task> list = taskManager.getPrioritizedTasks();
+
+        assertEquals(2, list.size());
+        assertEquals(subTask1s, list.first());
+        assertEquals(task1s, list.last());
     }
 
 }
