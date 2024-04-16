@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // Менеджер истории, который хранит своё состояние в файле, и может быть восстановлен из файла
 class FileBackedHistoryManager extends InMemoryHistoryManager {
@@ -40,12 +41,9 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
     public void save() {
         try (FileWriter writer = new FileWriter(historyFile)) {
             List<Task> tasks = getHistory();
-            StringBuilder builder = new StringBuilder();
-            for (Task t : tasks) {
-                builder.append(t.getId());
-                builder.append(",");
-            }
-            writer.append(builder.toString());
+            writer.append(String.join(",", tasks.stream().map(Task::getId)
+                    .map(x ->String.valueOf(x)).collect(Collectors.toList())));
+
         } catch (IOException e) {
             throw new ManagerSaveException(e.getCause());
         }

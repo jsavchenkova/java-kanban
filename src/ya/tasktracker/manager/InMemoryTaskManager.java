@@ -1,5 +1,6 @@
 package ya.tasktracker.manager;
 
+import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.task.*;
 
 import java.time.Duration;
@@ -90,6 +91,9 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int createTask(Task task) {
+        if(!checkTimeInterval(task)){
+            return -1;
+        }
         int id = indexTask.getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
@@ -97,6 +101,9 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int createEpic(Epic task) {
+        if(!checkTimeInterval(task)){
+            return -1;
+        }
         int id = indexTask.getNextId();
         task.setId(id);
         updateEpic(task);
@@ -104,14 +111,21 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int createSubTask(SubTask task) {
+        if(!checkTimeInterval(task)){
+            return -1;
+        }
         int id = indexTask.getNextId();
         task.setId(id);
         updateSubTask(task);
         return id;
     }
 
-    public void updateTask(Task task) {
+    public int  updateTask(Task task) {
+        if(!checkTimeInterval(task)){
+            return -1;
+        }
         tasks.put(task.getId(), task);
+        return task.getId();
     }
 
     public void updateEpic(Epic task) {
@@ -119,12 +133,16 @@ class InMemoryTaskManager implements TaskManager {
 
     }
 
-    public void updateSubTask(SubTask task) {
+    public int  updateSubTask(SubTask task) {
+        if(!checkTimeInterval(task)){
+            return -1;
+        }
         subTasks.put(task.getId(), task);
         if (task.getParentId() != null) {
             setEpicStatus(epics.get(task.getParentId()));
             setEpicTimes(epics.get(task.getParentId()));
         }
+        return task.getId();
     }
 
     public void deleteTask(int id) {
@@ -239,4 +257,16 @@ class InMemoryTaskManager implements TaskManager {
         setEpicEndTime(epic);
     }
 
+    @Override
+    public boolean checkTimeInterval(Task task) {
+        if (task.getStartTime()==null || task.getDuration()==null){
+            return true;
+        }
+        long count = getPrioritizedTasks().stream()
+                .filter(x->
+                        (x.getStartTime().isAfter(task.getStartTime()) && x.getStartTime().isBefore(task.getEndTime()))
+                || (x.getEndTime().isAfter(task.getStartTime()) && x.getEndTime().isBefore(task.getEndTime())))
+                .count();
+        return count == 0;
+    }
 }

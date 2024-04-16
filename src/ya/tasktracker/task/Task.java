@@ -1,5 +1,6 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.constants.TaskType;
 
 import java.time.Duration;

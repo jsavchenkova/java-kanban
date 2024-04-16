@@ -34,11 +34,11 @@ public interface TaskManager {
 
     int createSubTask(SubTask task);
 
-    void updateTask(Task task);
+    int updateTask(Task task);
 
     void updateEpic(Epic task);
 
-    void updateSubTask(SubTask task);
+    int updateSubTask(SubTask task);
 
     void deleteTask(int id);
 
@@ -53,4 +53,8 @@ public interface TaskManager {
     List<Task> getHistory();
 
     TreeSet<Task> getPrioritizedTasks();
+
+    /*true - нет пересекающихся интервалос
+    false - найдены пересекающиеся интервалы*/
+    boolean checkTimeInterval(Task task);
 }

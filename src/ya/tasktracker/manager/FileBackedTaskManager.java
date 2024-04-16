@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // Менеджер задач, который хранит своё состояние в файле, и может быть восстановлен из файла
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -85,18 +86,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
             writer.append("id,type,name,status,description,epic,start,finish,duration\n");
-            for (Task t : getTasks()) {
-                writer.append(t.serializeToString());
-                writer.append("\n");
-            }
-            for (Task ep : getEpics()) {
-                writer.append(ep.serializeToString());
-                writer.append("\n");
-            }
-            for (Task s : getSubTasks()) {
-                writer.append(((SubTask) s).serializeToString());
-                writer.append("\n");
-            }
+            writer.append(String.join(",", getTasks().stream()
+                    .map(Task::serializeToString).collect(Collectors.joining("\n"))));
+            writer.append("\n");
+            writer.append(String.join(",", getEpics().stream()
+                    .map(Task::serializeToString).collect(Collectors.joining("\n"))));
+            writer.append("\n");
+            writer.append(String.join(",", getSubTasks().stream()
+                    .map(Task::serializeToString).collect(Collectors.joining("\n"))));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -153,14 +150,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return id;
     }
 
-    public void updateTask(Task task) {
+    public int updateTask(Task task) {
         super.updateTask(task);
+        save();
+        return task.getId();
+    }
+
+    public void updateEpic(Epic task) {
+        super.updateEpic(task);
         save();
     }
 
-    public void updateSubTask(SubTask task) {
+    public int updateSubTask(SubTask task) {
         super.updateSubTask(task);
         save();
+        return task.getId();
     }
 
     public void deleteTask(int id) {
