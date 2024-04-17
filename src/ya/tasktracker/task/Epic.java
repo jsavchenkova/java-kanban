@@ -88,6 +88,7 @@ public class Epic extends Task {
                 start, finish, duration);
     }
 
+    @Override
     Epic fromString(String value) {
         String[] vals = value.split(",");
         return new Epic(vals);

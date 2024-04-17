@@ -14,7 +14,8 @@ class EpicTest {
     void equalsTaskEpicTest() {
         Epic task3 = new Epic("epic_test");
         Task task4 = task3;
-        assertTrue(task3.equals(task4));
+
+        assertEquals(task3, task4);
     }
 
     @Test

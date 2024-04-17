@@ -18,19 +18,20 @@ public class Task {
     private LocalDateTime startTime;
 
     private DateTimeFormatter formatter;
+    private String dateTimeFormat = "yyyy.MM.dd HH:mm";
 
     public Task() {
-        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
     }
 
     public Task(String name) {
-        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
         this.name = name;
         status = TaskStatus.NEW;
     }
 
     public Task(String[] params) {
-        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
         id = Integer.parseInt(params[0]);
         name = params[2];
         status = TaskStatus.valueOf(params[3]);
@@ -124,15 +125,15 @@ public class Task {
     public String serializeToString() {
         String start = "";
         String finish = "";
-        String duration = "";
+        String durationTask = "";
         if (getStartTime() != null && getDuration() != null) {
             start = getStartTime().format(formatter);
             finish = getEndTime().format(formatter);
-            duration = String.valueOf(getDuration().getSeconds());
+            durationTask = String.valueOf(getDuration().getSeconds());
         }
 
         return String.format("%s,%s,%s,%s,%s,,%s,%s,%s", getId(), TaskType.TASK, getName(), getStatus(), getDescription(),
-                start, finish, duration);
+                start, finish, durationTask);
     }
 
     Task fromString(String value) {

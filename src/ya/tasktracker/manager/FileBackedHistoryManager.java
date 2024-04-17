@@ -42,7 +42,7 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
         try (FileWriter writer = new FileWriter(historyFile)) {
             List<Task> tasks = getHistory();
             writer.append(String.join(",", tasks.stream().map(Task::getId)
-                    .map(x ->String.valueOf(x)).collect(Collectors.toList())));
+                    .map(String::valueOf).collect(Collectors.toList())));
 
         } catch (IOException e) {
             throw new ManagerSaveException(e.getCause());

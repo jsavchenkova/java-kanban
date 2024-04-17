@@ -71,10 +71,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             if (manager.tasks.containsKey(Integer.parseInt(h))) {
                 manager.getTask(Integer.parseInt(h));
                 continue;
-            } else if (manager.epics.containsKey(Integer.parseInt(h))) {
+            }
+            if (manager.epics.containsKey(Integer.parseInt(h))) {
                 manager.getEpic(Integer.parseInt(h));
                 continue;
-            } else if (manager.subTasks.containsKey(Integer.parseInt(h))) {
+            }
+            if (manager.subTasks.containsKey(Integer.parseInt(h))) {
                 manager.getSubtask(Integer.parseInt(h));
             }
         }
@@ -99,84 +101,99 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
+    @Override
     public void removeAllTasks() {
         super.removeAllTasks();
         save();
     }
 
+    @Override
     public void removeAllEpics() {
         super.removeAllEpics();
         save();
     }
 
+    @Override
     public void removeAllSubTask() {
         super.removeAllSubTask();
         save();
     }
 
+    @Override
     public Task getTask(int id) {
         Task task = super.getTask(id);
         save();
         return task;
     }
 
+    @Override
     public Epic getEpic(int id) {
         Epic epic = super.getEpic(id);
         save();
         return epic;
     }
 
+    @Override
     public SubTask getSubtask(int id) {
         SubTask subTask = super.getSubtask(id);
         save();
         return subTask;
     }
 
+    @Override
     public int createTask(Task task) {
         int id = super.createTask(task);
         save();
         return id;
     }
 
+    @Override
     public int createEpic(Epic task) {
         int id = super.createEpic(task);
         save();
         return id;
     }
 
+    @Override
     public int createSubTask(SubTask task) {
         int id = super.createSubTask(task);
         save();
         return id;
     }
 
+    @Override
     public int updateTask(Task task) {
         super.updateTask(task);
         save();
         return task.getId();
     }
 
+    @Override
     public void updateEpic(Epic task) {
         super.updateEpic(task);
         save();
     }
 
+    @Override
     public int updateSubTask(SubTask task) {
         super.updateSubTask(task);
         save();
         return task.getId();
     }
 
+    @Override
     public void deleteTask(int id) {
         super.deleteTask(id);
         save();
     }
 
+    @Override
     public void deleteEpic(int id) {
         super.deleteEpic(id);
         save();
     }
 
+    @Override
     public void deleteSubTask(int id) {
         super.deleteSubTask(id);
         save();
