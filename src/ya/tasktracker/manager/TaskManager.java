@@ -5,6 +5,7 @@ import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeSet;
 
 /*Управление задачами*/
@@ -22,11 +23,11 @@ public interface TaskManager {
 
     void removeAllSubTask();
 
-    Task getTask(int id);
+    Optional<Task> getTask(int id);
 
-    Epic getEpic(int id);
+    Optional<Epic> getEpic(int id);
 
-    SubTask getSubtask(int id);
+    Optional<SubTask> getSubtask(int id);
 
     int createTask(Task task);
 

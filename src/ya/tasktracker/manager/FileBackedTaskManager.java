@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 // Менеджер задач, который хранит своё состояние в файле, и может быть восстановлен из файла
@@ -120,22 +121,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Task getTask(int id) {
-        Task task = super.getTask(id);
+    public Optional<Task> getTask(int id) {
+        Optional<Task> task = super.getTask(id);
         save();
         return task;
     }
 
     @Override
-    public Epic getEpic(int id) {
-        Epic epic = super.getEpic(id);
+    public Optional<Epic> getEpic(int id) {
+        Optional<Epic> epic = super.getEpic(id);
         save();
         return epic;
     }
 
     @Override
-    public SubTask getSubtask(int id) {
-        SubTask subTask = super.getSubtask(id);
+    public Optional<SubTask> getSubtask(int id) {
+        Optional<SubTask> subTask = super.getSubtask(id);
         save();
         return subTask;
     }
