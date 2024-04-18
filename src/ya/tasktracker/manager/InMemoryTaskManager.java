@@ -5,6 +5,8 @@ import ya.tasktracker.task.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 class InMemoryTaskManager implements TaskManager {
@@ -13,7 +15,7 @@ class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
     protected final IndexTask indexTask;
-    protected final Map<LocalDateTime, List<Task>> intervals;
+    protected final Map<ZonedDateTime, List<Task>> intervals;
 
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -217,11 +219,11 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     private void setEpicStartTime(Epic epic) {
-        Optional<LocalDateTime> minStartTime = epic.getSubTask().stream()
+        Optional<ZonedDateTime> minStartTime = epic.getSubTask().stream()
                 .map(subTasks::get)
                 .filter(x -> x.getStartTime() != null && x.getDuration() != null)
                 .map(SubTask::getStartTime)
-                .min(LocalDateTime::compareTo);
+                .min(ZonedDateTime::compareTo);
         if (minStartTime.isPresent()) {
             epic.setStartTime(minStartTime.get());
         } else {
@@ -239,11 +241,11 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     private void setEpicEndTime(Epic epic) {
-        Optional<LocalDateTime> maxEndTime = epic.getSubTask().stream()
+        Optional<ZonedDateTime> maxEndTime = epic.getSubTask().stream()
                 .map(subTasks::get)
                 .filter(x -> x.getStartTime() != null && x.getDuration() != null)
                 .map(SubTask::getEndTime)
-                .max(LocalDateTime::compareTo);
+                .max(ZonedDateTime::compareTo);
         if (maxEndTime.isPresent()) {
             epic.setEndTime(maxEndTime.get());
         } else {
@@ -275,8 +277,8 @@ class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() == null || task.getDuration() == null) {
             return true;
         }
-        LocalDateTime startInterval = toInterval(task.getStartTime());
-        LocalDateTime endInterval = toInterval(task.getEndTime());
+        ZonedDateTime startInterval = toInterval(task.getStartTime());
+        ZonedDateTime endInterval = toInterval(task.getEndTime());
         while (startInterval.isBefore(endInterval) || startInterval.isEqual(endInterval)) {
             if (intervals.containsKey(startInterval)) {
                 long count = intervals.get(startInterval).stream()
@@ -293,26 +295,30 @@ class InMemoryTaskManager implements TaskManager {
         return true;
     }
 
-    private LocalDateTime toInterval(LocalDateTime time) {
+    private ZonedDateTime toInterval(ZonedDateTime time) {
         int minute = time.getMinute();
         if (minute >= 0 && minute < 15) {
-            return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 0);
+            return ZonedDateTime.of(LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                    time.getHour(), 0), time.getZone());
         }
         if (minute >= 15 && minute < 30) {
-            return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 15);
+            return ZonedDateTime.of(LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                    time.getHour(), 15), time.getZone());
         }
         if (minute >= 30 && minute < 45) {
-            return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 30);
+            return ZonedDateTime.of(LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                    time.getHour(), 30), time.getZone());
         }
-        return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 45);
+        return ZonedDateTime.of(LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(),
+                45), time.getZone());
     }
 
     private void addToIntervals(Task task) {
         if (task.getStartTime() == null || task.getDuration() == null) {
             return;
         }
-        LocalDateTime startInterval = toInterval(task.getStartTime());
-        LocalDateTime endInterval = toInterval(task.getEndTime());
+        ZonedDateTime startInterval = toInterval(task.getStartTime());
+        ZonedDateTime endInterval = toInterval(task.getEndTime());
         while (startInterval.isBefore(endInterval) || startInterval.isEqual(endInterval)) {
             if (!intervals.containsKey(startInterval)) {
                 intervals.put(startInterval, new ArrayList<>());
@@ -326,8 +332,8 @@ class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() == null || task.getDuration() == null) {
             return;
         }
-        LocalDateTime startInterval = toInterval(task.getStartTime());
-        LocalDateTime endInterval = toInterval(task.getEndTime());
+        ZonedDateTime startInterval = toInterval(task.getStartTime());
+        ZonedDateTime endInterval = toInterval(task.getEndTime());
         while (startInterval.isBefore(endInterval) || startInterval.isEqual(endInterval)) {
             intervals.get(startInterval).remove(task);
             startInterval = startInterval.plusMinutes(15);

@@ -9,6 +9,8 @@ import ya.tasktracker.task.Task;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -116,12 +118,12 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void getPrioritizedTasksTest() {
         Task task1s = new Task("task1s");
-        task1s.setStartTime(LocalDateTime.now().plusHours(1));
+        task1s.setStartTime(ZonedDateTime.now().plusHours(1));
         taskManager.createTask(task1s);
         Task task2s = new Task("task2s");
         taskManager.createTask(task2s);
         SubTask subTask1s = new SubTask("subTask1s");
-        subTask1s.setStartTime(LocalDateTime.now());
+        subTask1s.setStartTime(ZonedDateTime.now());
         taskManager.createSubTask(subTask1s);
 
         TreeSet<Task> list = taskManager.getPrioritizedTasks();
@@ -236,9 +238,11 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void intervalNotCrossingTest() {
         Task task = new Task("task1");
         Task task2 = new Task("task2");
-        task.setStartTime(LocalDateTime.of(2024, 04, 30, 12, 13));
+        task.setStartTime(ZonedDateTime.of(LocalDateTime.of(2024, 04, 30, 12, 13),
+                ZoneId.of("Europe/Moscow")));
         task.setDuration(Duration.ofMinutes(10));
-        task2.setStartTime(LocalDateTime.of(2024, 04, 29, 12, 13));
+        task2.setStartTime(ZonedDateTime.of(LocalDateTime.of(2024, 04, 29, 12, 13),
+                ZoneId.of("Europe/Moscow")));
         task2.setDuration(Duration.ofMinutes(10));
 
         taskManager.createTask(task);
@@ -251,9 +255,11 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void intervalCrossingTest() {
         Task task = new Task("task1");
         Task task2 = new Task("task2");
-        task.setStartTime(LocalDateTime.of(2024, 04, 30, 12, 13));
+        task.setStartTime(ZonedDateTime.of(LocalDateTime.of(2024, 04, 30, 12, 13),
+                ZoneId.of("Europe/Moscow")));
         task.setDuration(Duration.ofMinutes(10));
-        task2.setStartTime(LocalDateTime.of(2024, 04, 30, 12, 11));
+        task2.setStartTime(ZonedDateTime.of(LocalDateTime.of(2024, 04, 30, 12, 11),
+                ZoneId.of("Europe/Moscow")));
         task2.setDuration(Duration.ofMinutes(10));
 
         taskManager.createTask(task);

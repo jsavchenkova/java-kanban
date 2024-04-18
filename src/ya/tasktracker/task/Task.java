@@ -4,7 +4,7 @@ import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.constants.TaskType;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -15,10 +15,10 @@ public class Task {
     private String name;
     private String description;
     private Duration duration;
-    private LocalDateTime startTime;
+    private ZonedDateTime startTime;
 
     private DateTimeFormatter formatter;
-    private String dateTimeFormat = "yyyy.MM.dd HH:mm";
+    private String dateTimeFormat = "yyyy.MM.dd HH:mm VV";
 
     public Task() {
         formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
@@ -37,7 +37,7 @@ public class Task {
         status = TaskStatus.valueOf(params[3]);
         description = params[4];
         if (!params[6].isBlank()) {
-            startTime = LocalDateTime.parse(params[6], formatter);
+            startTime = ZonedDateTime.parse(params[6], formatter);
         }
         if (!params[7].isBlank()) {
             duration = Duration.ofSeconds(Long.parseLong(params[8]));
@@ -77,15 +77,15 @@ public class Task {
         this.duration = duration;
     }
 
-    public LocalDateTime getStartTime() {
+    public ZonedDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public ZonedDateTime getEndTime() {
         return startTime.plusSeconds(duration.getSeconds());
     }
 

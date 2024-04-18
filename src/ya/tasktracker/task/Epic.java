@@ -2,13 +2,13 @@ package ya.tasktracker.task;
 
 import ya.tasktracker.constants.TaskType;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Epic extends Task {
     private final List<Integer> subTaskList;
-    private LocalDateTime endTime;
+    private ZonedDateTime endTime;
 
     public Epic(String name) {
         super(name);
@@ -21,11 +21,11 @@ public class Epic extends Task {
     }
 
     @Override
-    public LocalDateTime getEndTime() {
+    public ZonedDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
         this.endTime = endTime;
     }
 
