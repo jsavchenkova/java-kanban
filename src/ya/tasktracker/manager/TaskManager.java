@@ -58,4 +58,6 @@ public interface TaskManager {
     /*true - нет пересекающихся интервалос
     false - найдены пересекающиеся интервалы*/
     boolean checkTimeInterval(Task task);
+
+    boolean quickCheckTimeInterval(Task task);
 }

@@ -13,6 +13,7 @@ class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, SubTask> subTasks;
     private final HistoryManager inMemoryHistoryManager;
     protected final IndexTask indexTask;
+    protected final Map<LocalDateTime, List<Task>> intervals;
 
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -21,6 +22,7 @@ class InMemoryTaskManager implements TaskManager {
         subTasks = new HashMap<>();
         inMemoryHistoryManager = historyManager;
         indexTask = new IndexTask();
+        intervals = new HashMap<>();
     }
 
     public List<Task> getTasks() {
@@ -83,9 +85,10 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int createTask(Task task) {
-        if (!checkTimeInterval(task)) {
+        if (!quickCheckTimeInterval(task)) {
             return -1;
         }
+        addToIntervals(task);
         int id = indexTask.getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
@@ -93,7 +96,7 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int createEpic(Epic task) {
-        if (!checkTimeInterval(task)) {
+        if (!quickCheckTimeInterval(task)) {
             return -1;
         }
         int id = indexTask.getNextId();
@@ -103,9 +106,10 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int createSubTask(SubTask task) {
-        if (!checkTimeInterval(task)) {
+        if (!quickCheckTimeInterval(task)) {
             return -1;
         }
+        addToIntervals(task);
         int id = indexTask.getNextId();
         task.setId(id);
         updateSubTask(task);
@@ -113,9 +117,10 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int updateTask(Task task) {
-        if (!checkTimeInterval(task)) {
+        if (!quickCheckTimeInterval(task)) {
             return -1;
         }
+        addToIntervals(task);
         tasks.put(task.getId(), task);
         return task.getId();
     }
@@ -126,9 +131,10 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public int updateSubTask(SubTask task) {
-        if (!checkTimeInterval(task)) {
+        if (!quickCheckTimeInterval(task)) {
             return -1;
         }
+        addToIntervals(task);
         subTasks.put(task.getId(), task);
         if (task.getParentId() != null) {
             setEpicStatus(epics.get(task.getParentId()));
@@ -138,6 +144,7 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public void deleteTask(int id) {
+        deleteFromInterval(tasks.get(id));
         inMemoryHistoryManager.remove(id);
         tasks.remove(id);
     }
@@ -157,6 +164,7 @@ class InMemoryTaskManager implements TaskManager {
         epics.get(subTask.getParentId()).removeSubtask(subTask.getId());
         setEpicStatus(epics.get(subTask.getParentId()));
         setEpicTimes(epics.get(subTask.getParentId()));
+        deleteFromInterval(subTasks.get(id));
         inMemoryHistoryManager.remove(id);
         subTasks.remove(id);
     }
@@ -260,5 +268,69 @@ class InMemoryTaskManager implements TaskManager {
                                 || (x.getEndTime().isAfter(task.getStartTime()) && x.getEndTime().isBefore(task.getEndTime())))
                 .count();
         return count == 0;
+    }
+
+    @Override
+    public boolean quickCheckTimeInterval(Task task) {
+        if (task.getStartTime() == null || task.getDuration() == null) {
+            return true;
+        }
+        LocalDateTime startInterval = toInterval(task.getStartTime());
+        LocalDateTime endInterval = toInterval(task.getEndTime());
+        while (startInterval.isBefore(endInterval) || startInterval.isEqual(endInterval)) {
+            if (intervals.containsKey(startInterval)) {
+                long count = intervals.get(startInterval).stream()
+                        .filter(x ->
+                                (x.getStartTime().isAfter(task.getStartTime()) && x.getStartTime().isBefore(task.getEndTime()))
+                                        || (x.getEndTime().isAfter(task.getStartTime()) && x.getEndTime().isBefore(task.getEndTime())))
+                        .count();
+                if (count > 0) {
+                    return false;
+                }
+            }
+            startInterval = startInterval.plusMinutes(15);
+        }
+        return true;
+    }
+
+    private LocalDateTime toInterval(LocalDateTime time) {
+        int minute = time.getMinute();
+        if (minute >= 0 && minute < 15) {
+            return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 0);
+        }
+        if (minute >= 15 && minute < 30) {
+            return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 15);
+        }
+        if (minute >= 30 && minute < 45) {
+            return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 30);
+        }
+        return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), 45);
+    }
+
+    private void addToIntervals(Task task) {
+        if (task.getStartTime() == null || task.getDuration() == null) {
+            return;
+        }
+        LocalDateTime startInterval = toInterval(task.getStartTime());
+        LocalDateTime endInterval = toInterval(task.getEndTime());
+        while (startInterval.isBefore(endInterval) || startInterval.isEqual(endInterval)) {
+            if (!intervals.containsKey(startInterval)) {
+                intervals.put(startInterval, new ArrayList<>());
+            }
+            intervals.get(startInterval).add(task);
+            startInterval = startInterval.plusMinutes(15);
+        }
+    }
+
+    private void deleteFromInterval(Task task) {
+        if (task.getStartTime() == null || task.getDuration() == null) {
+            return;
+        }
+        LocalDateTime startInterval = toInterval(task.getStartTime());
+        LocalDateTime endInterval = toInterval(task.getEndTime());
+        while (startInterval.isBefore(endInterval) || startInterval.isEqual(endInterval)) {
+            intervals.get(startInterval).remove(task);
+            startInterval = startInterval.plusMinutes(15);
+        }
     }
 }

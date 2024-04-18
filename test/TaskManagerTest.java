@@ -7,15 +7,17 @@ import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract class TaskManagerTest<T extends TaskManager> {
 
-    protected  T taskManager;
+    protected T taskManager;
 
     @BeforeEach
     abstract void create() throws IOException;
@@ -218,7 +220,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void SubTaskEpicTest(){
+    void SubTaskEpicTest() {
         Epic epic3 = new Epic("epic3");
         int id = taskManager.createEpic(epic3);
         SubTask subTask3 = new SubTask("subTask3");
@@ -228,6 +230,36 @@ abstract class TaskManagerTest<T extends TaskManager> {
         SubTask subTask = taskManager.getSubtask(stId).get();
 
         assertEquals(id, subTask.getParentId());
+    }
+
+    @Test
+    void intervalNotCrossingTest() {
+        Task task = new Task("task1");
+        Task task2 = new Task("task2");
+        task.setStartTime(LocalDateTime.of(2024, 04, 30, 12, 13));
+        task.setDuration(Duration.ofMinutes(10));
+        task2.setStartTime(LocalDateTime.of(2024, 04, 29, 12, 13));
+        task2.setDuration(Duration.ofMinutes(10));
+
+        taskManager.createTask(task);
+        int id = taskManager.createTask(task2);
+
+        assertTrue(id > -1);
+    }
+
+    @Test
+    void intervalCrossingTest() {
+        Task task = new Task("task1");
+        Task task2 = new Task("task2");
+        task.setStartTime(LocalDateTime.of(2024, 04, 30, 12, 13));
+        task.setDuration(Duration.ofMinutes(10));
+        task2.setStartTime(LocalDateTime.of(2024, 04, 30, 12, 11));
+        task2.setDuration(Duration.ofMinutes(10));
+
+        taskManager.createTask(task);
+        int id = taskManager.createTask(task2);
+
+        assertEquals(-1, id);
     }
 
 }
