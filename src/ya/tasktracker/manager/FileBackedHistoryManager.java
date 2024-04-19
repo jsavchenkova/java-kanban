@@ -18,7 +18,7 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
 
     public FileBackedHistoryManager() {
         super();
-        historyFile = createFile(Paths.get("src", "resources", "default_history_file.csv")).toFile();
+        historyFile = createFile(Paths.get("resources", "default_history_file.csv")).toFile();
     }
 
     public FileBackedHistoryManager(File file) {
