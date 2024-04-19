@@ -40,13 +40,19 @@ class InMemoryTaskManager implements TaskManager {
     }
 
     public void removeAllTasks() {
-        tasks.values().stream().mapToInt(Task::getId).forEach(inMemoryHistoryManager::remove);
+        tasks.values().stream()
+                .mapToInt(Task::getId)
+                .forEach(inMemoryHistoryManager::remove);
         tasks.clear();
     }
 
     public void removeAllEpics() {
-        subTasks.values().stream().mapToInt(SubTask::getId).forEach(inMemoryHistoryManager::remove);
-        epics.values().stream().mapToInt(Epic::getId).forEach(inMemoryHistoryManager::remove);
+        subTasks.values().stream()
+                .mapToInt(SubTask::getId)
+                .forEach(inMemoryHistoryManager::remove);
+        epics.values().stream()
+                .mapToInt(Epic::getId)
+                .forEach(inMemoryHistoryManager::remove);
         subTasks.clear();
         epics.clear();
     }
@@ -57,7 +63,9 @@ class InMemoryTaskManager implements TaskManager {
             setEpicStatus(epic);
             setEpicTimes(epic);
         }
-        subTasks.values().stream().mapToInt(SubTask::getId).forEach(inMemoryHistoryManager::remove);
+        subTasks.values().stream()
+                .mapToInt(SubTask::getId)
+                .forEach(inMemoryHistoryManager::remove);
         subTasks.clear();
     }
 

@@ -16,8 +16,8 @@ public class Main {
 
         Managers managers = new Managers();
 
-        File taskFile = Paths.get("src", "resources", "1t.csv").toFile();
-        File historyFile = Paths.get("src", "resources", "1h.csv").toFile();
+        File taskFile = Paths.get("resources", "1t.csv").toFile();
+        File historyFile = Paths.get("resources", "1h.csv").toFile();
         TaskManager taskManager = FileBackedTaskManager.loadFromFile(taskFile, historyFile);
         System.out.println(taskManager.getHistory());
         int taskId1 = taskManager.createTask(new Task("первая задача"));
@@ -38,8 +38,8 @@ public class Main {
         taskManager.getEpic(epicId);
         System.out.println(taskManager.getHistory());
 
-        taskFile = Paths.get("src", "resources", "empty.csv").toFile();
-        historyFile = Paths.get("src", "resources", "empty_history.csv").toFile();
+        taskFile = Paths.get("resources", "empty.csv").toFile();
+        historyFile = Paths.get("resources", "empty_history.csv").toFile();
         TaskManager taskManager1 = FileBackedTaskManager.loadFromFile(taskFile, historyFile);
         System.out.println(taskManager1.getHistory());
         taskId1 = taskManager1.createTask(new Task("первая задача"));

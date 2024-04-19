@@ -22,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public FileBackedTaskManager(HistoryManager historyManager) throws IOException {
         super(historyManager);
-        taskFile = createFile(Paths.get("src", "resources", "default_task_file.csv")).toFile();
+        taskFile = createFile(Paths.get("resources", "default_task_file.csv")).toFile();
     }
 
     public FileBackedTaskManager(HistoryManager historyManager, File file) {

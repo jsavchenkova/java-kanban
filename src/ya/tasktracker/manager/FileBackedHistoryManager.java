@@ -18,7 +18,7 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
 
     public FileBackedHistoryManager() {
         super();
-        historyFile = createFile(Paths.get("src", "resources", "default_history_file.csv")).toFile();
+        historyFile = createFile(Paths.get("resources", "default_history_file.csv")).toFile();
     }
 
     public FileBackedHistoryManager(File file) {
@@ -41,8 +41,11 @@ class FileBackedHistoryManager extends InMemoryHistoryManager {
     public void save() {
         try (FileWriter writer = new FileWriter(historyFile)) {
             List<Task> tasks = getHistory();
-            writer.append(String.join(",", tasks.stream().map(Task::getId)
-                    .map(String::valueOf).collect(Collectors.toList())));
+            writer.append(String.join(",", tasks.stream()
+                    .map(Task::getId)
+                    .map(String::valueOf)
+                    .collect(Collectors.toList())
+            ));
 
         } catch (IOException e) {
             throw new ManagerSaveException(e.getCause());

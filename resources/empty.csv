@@ -1,0 +1,11 @@
+id,type,name,status,description,epic,start,finish,duration
+0,TASK,первая задача,NEW,,,,,
+3,TASK,первая задача,NEW,,,,,
+6,TASK,первая задача,NEW,,,,,
+9,TASK,первая задача,NEW,,,,,
+12,TASK,первая задача,NEW,,,,,
+2,EPIC,пустой эпик,NEW,,,,,
+5,EPIC,пустой эпик,NEW,,,,,
+8,EPIC,пустой эпик,NEW,,,,,
+11,EPIC,пустой эпик,NEW,,,,,
+14,EPIC,пустой эпик,NEW,,,,,
