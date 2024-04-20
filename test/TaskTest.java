@@ -17,13 +17,13 @@ class TaskTest {
         task1 = new Task("test_task");
         Task task2 = task1;
 
-        assertTrue(task1.equals(task2));
+        assertEquals(task1, task2);
     }
 
     @Test
     void equalsTaskTaskTest() {
         Task task3 = task1;
-        assertTrue(task1.equals(task3));
+        assertEquals(task1, task3);
     }
 
 

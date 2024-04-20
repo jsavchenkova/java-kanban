@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 // Менеджер задач, который хранит своё состояние в файле, и может быть восстановлен из файла
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -20,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public FileBackedTaskManager(HistoryManager historyManager) throws IOException {
         super(historyManager);
-        taskFile = createFile(Paths.get("src", "resources", "default_task_file.csv")).toFile();
+        taskFile = createFile(Paths.get("resources", "default_task_file.csv")).toFile();
     }
 
     public FileBackedTaskManager(HistoryManager historyManager, File file) {
@@ -70,10 +72,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             if (manager.tasks.containsKey(Integer.parseInt(h))) {
                 manager.getTask(Integer.parseInt(h));
                 continue;
-            } else if (manager.epics.containsKey(Integer.parseInt(h))) {
+            }
+            if (manager.epics.containsKey(Integer.parseInt(h))) {
                 manager.getEpic(Integer.parseInt(h));
                 continue;
-            } else if (manager.subTasks.containsKey(Integer.parseInt(h))) {
+            }
+            if (manager.subTasks.containsKey(Integer.parseInt(h))) {
                 manager.getSubtask(Integer.parseInt(h));
             }
         }
@@ -84,95 +88,113 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (FileWriter writer = new FileWriter(taskFile)) {
 
 
-            writer.append("id,type,name,status,description,epic\n");
-            for (Task t : getTasks()) {
-                writer.append(t.serializeToString());
-                writer.append("\n");
-            }
-            for (Task ep : getEpics()) {
-                writer.append(ep.serializeToString());
-                writer.append("\n");
-            }
-            for (Task s : getSubTasks()) {
-                writer.append(((SubTask) s).serializeToString());
-                writer.append("\n");
-            }
+            writer.append("id,type,name,status,description,epic,start,finish,duration\n");
+            writer.append(String.join(",", getTasks().stream()
+                    .map(Task::serializeToString).collect(Collectors.joining("\n"))));
+            writer.append("\n");
+            writer.append(String.join(",", getEpics().stream()
+                    .map(Task::serializeToString).collect(Collectors.joining("\n"))));
+            writer.append("\n");
+            writer.append(String.join(",", getSubTasks().stream()
+                    .map(Task::serializeToString).collect(Collectors.joining("\n"))));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
+    @Override
     public void removeAllTasks() {
         super.removeAllTasks();
         save();
     }
 
+    @Override
     public void removeAllEpics() {
         super.removeAllEpics();
         save();
     }
 
+    @Override
     public void removeAllSubTask() {
         super.removeAllSubTask();
         save();
     }
 
-    public Task getTask(int id) {
-        Task task = super.getTask(id);
+    @Override
+    public Optional<Task> getTask(int id) {
+        Optional<Task> task = super.getTask(id);
         save();
         return task;
     }
 
-    public Epic getEpic(int id) {
-        Epic epic = super.getEpic(id);
+    @Override
+    public Optional<Epic> getEpic(int id) {
+        Optional<Epic> epic = super.getEpic(id);
         save();
         return epic;
     }
 
-    public SubTask getSubtask(int id) {
-        SubTask subTask = super.getSubtask(id);
+    @Override
+    public Optional<SubTask> getSubtask(int id) {
+        Optional<SubTask> subTask = super.getSubtask(id);
         save();
         return subTask;
     }
 
+    @Override
     public int createTask(Task task) {
         int id = super.createTask(task);
         save();
         return id;
     }
 
+    @Override
     public int createEpic(Epic task) {
         int id = super.createEpic(task);
         save();
         return id;
     }
 
+    @Override
     public int createSubTask(SubTask task) {
         int id = super.createSubTask(task);
         save();
         return id;
     }
 
-    public void updateTask(Task task) {
+    @Override
+    public int updateTask(Task task) {
         super.updateTask(task);
         save();
+        return task.getId();
     }
 
-    public void updateSubTask(SubTask task) {
-        super.updateSubTask(task);
+    @Override
+    public void updateEpic(Epic task) {
+        super.updateEpic(task);
         save();
     }
 
+    @Override
+    public int updateSubTask(SubTask task) {
+        super.updateSubTask(task);
+        save();
+        return task.getId();
+    }
+
+    @Override
     public void deleteTask(int id) {
         super.deleteTask(id);
         save();
     }
 
+    @Override
     public void deleteEpic(int id) {
         super.deleteEpic(id);
         save();
     }
 
+    @Override
     public void deleteSubTask(int id) {
         super.deleteSubTask(id);
         save();

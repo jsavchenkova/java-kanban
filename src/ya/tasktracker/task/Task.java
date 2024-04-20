@@ -1,7 +1,11 @@
 package ya.tasktracker.task;
 
+import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.constants.TaskType;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -10,17 +14,34 @@ public class Task {
     private int id;
     private String name;
     private String description;
+    private Duration duration;
+    private ZonedDateTime startTime;
+
+    private DateTimeFormatter formatter;
+    private String dateTimeFormat = "yyyy.MM.dd HH:mm VV";
+
+    public Task() {
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+    }
 
     public Task(String name) {
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
         this.name = name;
         status = TaskStatus.NEW;
     }
 
     public Task(String[] params) {
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
         id = Integer.parseInt(params[0]);
         name = params[2];
         status = TaskStatus.valueOf(params[3]);
         description = params[4];
+        if (!params[6].isBlank()) {
+            startTime = ZonedDateTime.parse(params[6], formatter);
+        }
+        if (!params[7].isBlank()) {
+            duration = Duration.ofSeconds(Long.parseLong(params[8]));
+        }
     }
 
     public int getId() {
@@ -46,6 +67,26 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public ZonedDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(ZonedDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public ZonedDateTime getEndTime() {
+        return startTime.plusSeconds(duration.getSeconds());
     }
 
     @Override
@@ -82,7 +123,17 @@ public class Task {
     }
 
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.TASK, getName(), getStatus(), getDescription());
+        String start = "";
+        String finish = "";
+        String durationTask = "";
+        if (getStartTime() != null && getDuration() != null) {
+            start = getStartTime().format(formatter);
+            finish = getEndTime().format(formatter);
+            durationTask = String.valueOf(getDuration().getSeconds());
+        }
+
+        return String.format("%s,%s,%s,%s,%s,,%s,%s,%s", getId(), TaskType.TASK, getName(), getStatus(), getDescription(),
+                start, finish, durationTask);
     }
 
     Task fromString(String value) {

@@ -2,10 +2,13 @@ package ya.tasktracker.task;
 
 import ya.tasktracker.constants.TaskType;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Epic extends Task {
     private final List<Integer> subTaskList;
+    private ZonedDateTime endTime;
 
     public Epic(String name) {
         super(name);
@@ -15,6 +18,15 @@ public class Epic extends Task {
     public Epic(String[] params) {
         super(params);
         subTaskList = new ArrayList<>();
+    }
+
+    @Override
+    public ZonedDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -62,9 +74,21 @@ public class Epic extends Task {
 
     @Override
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,", getId(), TaskType.EPIC, getName(), getStatus(), getDescription());
+        String start = "";
+        String finish = "";
+        String duration = "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
+        if (getStartTime() != null && getDuration() != null) {
+            start = getStartTime().format(formatter);
+            finish = getEndTime().format(formatter);
+            duration = String.valueOf(getDuration().getSeconds());
+        }
+
+        return String.format("%s,%s,%s,%s,%s,,%s,%s,%s", getId(), TaskType.EPIC, getName(), getStatus(), getDescription(),
+                start, finish, duration);
     }
 
+    @Override
     Epic fromString(String value) {
         String[] vals = value.split(",");
         return new Epic(vals);

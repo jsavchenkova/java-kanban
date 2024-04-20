@@ -62,6 +62,8 @@ class InMemoryHistoryManager implements HistoryManager {
         if (node.getNext() != null) {
             node.getNext().setPrev(node.getPrev());
         }
-        taskList.remove(node.getTask());
+
+        taskList.remove(node.getTask().getId());
+
     }
 }

@@ -5,6 +5,8 @@ import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.TreeSet;
 
 /*Управление задачами*/
 public interface TaskManager {
@@ -21,11 +23,11 @@ public interface TaskManager {
 
     void removeAllSubTask();
 
-    Task getTask(int id);
+    Optional<Task> getTask(int id);
 
-    Epic getEpic(int id);
+    Optional<Epic> getEpic(int id);
 
-    SubTask getSubtask(int id);
+    Optional<SubTask> getSubtask(int id);
 
     int createTask(Task task);
 
@@ -33,11 +35,11 @@ public interface TaskManager {
 
     int createSubTask(SubTask task);
 
-    void updateTask(Task task);
+    int updateTask(Task task);
 
     void updateEpic(Epic task);
 
-    void updateSubTask(SubTask task);
+    int updateSubTask(SubTask task);
 
     void deleteTask(int id);
 
@@ -50,4 +52,12 @@ public interface TaskManager {
 
     /*история просмотра задач*/
     List<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
+
+    /*true - нет пересекающихся интервалос
+    false - найдены пересекающиеся интервалы*/
+    boolean checkTimeInterval(Task task);
+
+    boolean quickCheckTimeInterval(Task task);
 }

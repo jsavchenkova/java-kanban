@@ -17,7 +17,7 @@ public class Managers {
         return new FileBackedTaskManager(getFileBackedHistoryManager());
     }
 
-    public TaskManager getFileBackedManager(File file) throws IOException {
+    public TaskManager getFileBackedManager(File file) {
         return new FileBackedTaskManager(getFileBackedHistoryManager(), file);
     }
 

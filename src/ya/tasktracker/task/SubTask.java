@@ -2,6 +2,7 @@ package ya.tasktracker.task;
 
 import ya.tasktracker.constants.TaskType;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class SubTask extends Task {
@@ -47,6 +48,17 @@ public class SubTask extends Task {
 
     @Override
     public String serializeToString() {
-        return String.format("%s,%s,%s,%s,%s,%s", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(), getParentId());
+        String start = "";
+        String finish = "";
+        String duration = "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm");
+        if (getStartTime() != null && getDuration() != null) {
+            start = getStartTime().format(formatter);
+            finish = getEndTime().format(formatter);
+            duration = String.valueOf(getDuration().getSeconds());
+        }
+
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(),
+                getParentId(), start, finish,duration);
     }
 }

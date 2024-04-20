@@ -1,4 +1,4 @@
-package ya.tasktracker.task;
+package ya.tasktracker.constants;
 
 public enum TaskStatus {
     NEW,
