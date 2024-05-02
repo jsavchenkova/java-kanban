@@ -19,8 +19,8 @@ public class HistoryHandler extends BaseHandler implements HttpHandler {
         List<Task> history = manager.getHistory();
         String jsonHistory = gson.toJson(history);
 
-        exchange.sendResponseHeaders(200,0);
-        try(OutputStream os = exchange.getResponseBody()){
+        exchange.sendResponseHeaders(200, 0);
+        try (OutputStream os = exchange.getResponseBody()) {
             os.write(jsonHistory.getBytes());
         }
     }

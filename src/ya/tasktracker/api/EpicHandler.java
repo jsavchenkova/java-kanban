@@ -37,7 +37,7 @@ public class EpicHandler extends BaseHandler implements HttpHandler {
                 } else if (str.length == 4) {
                     getEpicSubtasks(exchange, str[2]);
                 }
-                    break;
+                break;
             case "DELETE":
                 deleteEpicById(exchange, str[2]);
                 break;
@@ -89,7 +89,7 @@ public class EpicHandler extends BaseHandler implements HttpHandler {
         Epic task;
         try {
             task = manager.getEpic(id);
-        }catch (InstanceNotFoundException e){
+        } catch (InstanceNotFoundException e) {
             exchange.sendResponseHeaders(404, 0);
             sendResponse(exchange, e.getMessage());
             return;
@@ -102,9 +102,9 @@ public class EpicHandler extends BaseHandler implements HttpHandler {
 
     private void getEpicSubtasks(HttpExchange exchange, String idStr) throws IOException {
         int id = -1;
-        try{
+        try {
             id = Integer.parseInt(idStr);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             exchange.sendResponseHeaders(400, 0);
             sendResponse(exchange, "Неверный формат. Id должен быть числом.");
             return;
@@ -112,13 +112,13 @@ public class EpicHandler extends BaseHandler implements HttpHandler {
         Epic task;
         try {
             task = manager.getEpic(id);
-        } catch(InstanceNotFoundException e){
+        } catch (InstanceNotFoundException e) {
             exchange.sendResponseHeaders(404, 0);
             sendResponse(exchange, e.getMessage());
             return;
         }
 
-        List<Integer>subTaskIdList = manager.getSubTasksByEpic(task);
+        List<Integer> subTaskIdList = manager.getSubTasksByEpic(task);
         List<SubTask> subTaskList = new ArrayList<>();
 
         for (Integer x : subTaskIdList) {
@@ -132,16 +132,16 @@ public class EpicHandler extends BaseHandler implements HttpHandler {
         }
 
         String listJson = gson.toJson(subTaskList);
-            exchange.sendResponseHeaders(200, 0);
-            sendResponse(exchange, listJson);
+        exchange.sendResponseHeaders(200, 0);
+        sendResponse(exchange, listJson);
 
     }
 
     private void deleteEpicById(HttpExchange exchange, String idStr) throws IOException {
         int id = -1;
-        try{
+        try {
             id = Integer.parseInt(idStr);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             exchange.sendResponseHeaders(400, 0);
             sendResponse(exchange, "Неверный формат. Id должен быть числом.");
             return;

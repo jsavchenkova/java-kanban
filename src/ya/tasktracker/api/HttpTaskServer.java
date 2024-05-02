@@ -24,18 +24,23 @@ public class HttpTaskServer {
             TaskManager manager = FileBackedTaskManager.loadFromFile(taskFile, historyFile);
 
 
-            httpServer = HttpServer.create();
-            httpServer.bind(new InetSocketAddress(port), 0);
-            httpServer.createContext("/tasks", new TasksHandler(manager));
-            httpServer.createContext("/subtasks", new SubTaskHandler(manager));
-            httpServer.createContext("/epics", new EpicHandler(manager));
-            httpServer.createContext("/history", new HistoryHandler(manager));
-            httpServer.createContext("/prioritized", new PrioritizedHandler(manager));
+            httpServer = createServer(manager);
             httpServer.start();
             System.out.println("Start 8080");
         } catch (IOException | InstanceNotFoundException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static HttpServer createServer(TaskManager manager) throws IOException {
+        HttpServer httpServer = HttpServer.create();
+        httpServer.bind(new InetSocketAddress(port), 0);
+        httpServer.createContext("/tasks", new TasksHandler(manager));
+        httpServer.createContext("/subtasks", new SubTaskHandler(manager));
+        httpServer.createContext("/epics", new EpicHandler(manager));
+        httpServer.createContext("/history", new HistoryHandler(manager));
+        httpServer.createContext("/prioritized", new PrioritizedHandler(manager));
+        return httpServer;
     }
 }

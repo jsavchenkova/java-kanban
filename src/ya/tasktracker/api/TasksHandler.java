@@ -35,7 +35,7 @@ public class TasksHandler extends BaseHandler implements HttpHandler {
                 }
                 break;
             case "DELETE":
-                deleteTaskById(exchange,str[2]);
+                deleteTaskById(exchange, str[2]);
                 break;
         }
     }
@@ -91,9 +91,9 @@ public class TasksHandler extends BaseHandler implements HttpHandler {
         Task task;
         try {
             task = manager.getTask(id);
-        }catch(InstanceNotFoundException e) {
+        } catch (InstanceNotFoundException e) {
             exchange.sendResponseHeaders(404, 0);
-            sendResponse(exchange,e.getMessage());
+            sendResponse(exchange, e.getMessage());
             return;
         }
 
@@ -104,9 +104,9 @@ public class TasksHandler extends BaseHandler implements HttpHandler {
 
     private void deleteTaskById(HttpExchange exchange, String idStr) throws IOException {
         int id = -1;
-        try{
+        try {
             id = Integer.parseInt(idStr);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             exchange.sendResponseHeaders(400, 0);
             sendResponse(exchange, "Неверный формат. Id должен быть числом.");
             return;

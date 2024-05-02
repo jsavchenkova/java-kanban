@@ -36,7 +36,7 @@ public class SubTaskHandler extends BaseHandler implements HttpHandler {
                 }
                 break;
             case "DELETE":
-                deleteSubTaskById(exchange,str[2]);
+                deleteSubTaskById(exchange, str[2]);
                 break;
         }
     }
@@ -92,7 +92,7 @@ public class SubTaskHandler extends BaseHandler implements HttpHandler {
         SubTask task;
         try {
             task = manager.getSubtask(id);
-        }catch (InstanceNotFoundException e){
+        } catch (InstanceNotFoundException e) {
             exchange.sendResponseHeaders(404, 0);
             sendResponse(exchange, e.getMessage());
             return;
@@ -105,9 +105,9 @@ public class SubTaskHandler extends BaseHandler implements HttpHandler {
 
     private void deleteSubTaskById(HttpExchange exchange, String idStr) throws IOException {
         int id = -1;
-        try{
+        try {
             id = Integer.parseInt(idStr);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             exchange.sendResponseHeaders(400, 0);
             sendResponse(exchange, "Неверный формат. Id должен быть числом.");
             return;

@@ -1,7 +1,6 @@
 package ya.tasktracker.task;
 
 import com.google.gson.annotations.Expose;
-import jdk.jfr.Experimental;
 import ya.tasktracker.constants.Formatters;
 import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.constants.TaskType;

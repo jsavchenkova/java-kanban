@@ -6,12 +6,13 @@ import ya.tasktracker.manager.TaskManager;
 import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.Task;
 
+import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-abstract class HistoryManagerTest<T extends HistoryManager>  {
+abstract class HistoryManagerTest<T extends HistoryManager> {
     protected TaskManager taskManager;
     protected HistoryManager historyManager;
 
@@ -19,7 +20,7 @@ abstract class HistoryManagerTest<T extends HistoryManager>  {
     abstract void create() throws IOException;
 
     @Test
-    void addTaskTest() {
+    void addTaskTest() throws InstanceNotFoundException {
         Task task1 = new Task("1");
         Task task2 = new Task("2");
         Epic task3 = new Epic("3");
@@ -48,7 +49,7 @@ abstract class HistoryManagerTest<T extends HistoryManager>  {
     }
 
     @Test
-    void getHistoryEmptyTest(){
+    void getHistoryEmptyTest() {
         assertEquals(0, historyManager.getHistory().size());
     }
 }

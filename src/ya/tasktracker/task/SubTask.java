@@ -61,6 +61,6 @@ public class SubTask extends Task {
         }
 
         return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(),
-                getParentId(), start, finish,duration);
+                getParentId(), start, finish, duration);
     }
 }

@@ -75,7 +75,7 @@ class InMemoryTaskManager implements TaskManager {
         Task task = tasks.get(id);
         if (task != null) {
             inMemoryHistoryManager.add(task);
-        }else{
+        } else {
             throw new InstanceNotFoundException("Задача не найдена");
         }
         return task;
@@ -85,7 +85,7 @@ class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(id);
         if (epic != null) {
             inMemoryHistoryManager.add(epic);
-        }else{
+        } else {
             throw new InstanceNotFoundException("Эпик не найден");
         }
         return epic;
@@ -95,7 +95,7 @@ class InMemoryTaskManager implements TaskManager {
         SubTask subTask = subTasks.get(id);
         if (subTask != null) {
             inMemoryHistoryManager.add(subTask);
-        }else{
+        } else {
             throw new InstanceNotFoundException("Подзадача не найден");
         }
         return subTask;
@@ -300,7 +300,7 @@ class InMemoryTaskManager implements TaskManager {
                         .filter(x ->
                                 ((x.getStartTime().isAfter(task.getStartTime()) && x.getStartTime().isBefore(task.getEndTime()))
                                         || (x.getEndTime().isAfter(task.getStartTime()) && x.getEndTime().isBefore(task.getEndTime())))
-                        && x.getId()!=task.getId())
+                                        && x.getId() != task.getId())
                         .count();
                 if (count > 0) {
                     return false;

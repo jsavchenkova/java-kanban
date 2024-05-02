@@ -18,8 +18,8 @@ public class PrioritizedHandler extends BaseHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         TreeSet<Task> treeSet = manager.getPrioritizedTasks();
         String jsonTreeSet = gson.toJson(treeSet);
-        exchange.sendResponseHeaders(200,0);
-        try(OutputStream os = exchange.getResponseBody()){
+        exchange.sendResponseHeaders(200, 0);
+        try (OutputStream os = exchange.getResponseBody()) {
             os.write(jsonTreeSet.getBytes());
         }
     }

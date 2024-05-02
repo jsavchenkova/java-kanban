@@ -32,7 +32,7 @@ public abstract class BaseHandler {
         }
     }
 
-    String[] getPath(HttpExchange exchange){
+    String[] getPath(HttpExchange exchange) {
         URI uri = exchange.getRequestURI();
         String path = uri.getPath();
         String[] str = path.split("/");
