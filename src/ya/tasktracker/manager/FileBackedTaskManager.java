@@ -6,6 +6,7 @@ import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
+import javax.management.InstanceNotFoundException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         taskFile = createFile(file.toPath()).toFile();
     }
 
-    public static FileBackedTaskManager loadFromFile(File file, File fileHistory) throws IOException {
+    public static FileBackedTaskManager loadFromFile(File file, File fileHistory) throws IOException, InstanceNotFoundException {
         int maxId = 0;
         FileBackedHistoryManager historyManager = new FileBackedHistoryManager(fileHistory);
         FileBackedTaskManager manager = new FileBackedTaskManager(historyManager, file);
@@ -58,6 +59,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 case SUBTASK:
                     SubTask subTask = new SubTask(str);
                     manager.subTasks.put(subTask.getId(), subTask);
+                    Epic parentEpic = manager.epics.get(subTask.getParentId());
+                    parentEpic.getSubTask().add(subTask.getId());
+                    parentEpic.addSubTask(subTask);
                     break;
             }
         }
@@ -121,22 +125,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Optional<Task> getTask(int id) {
-        Optional<Task> task = super.getTask(id);
+    public Task getTask(int id) throws InstanceNotFoundException {
+        Task task = super.getTask(id);
         save();
         return task;
     }
 
     @Override
-    public Optional<Epic> getEpic(int id) {
-        Optional<Epic> epic = super.getEpic(id);
+    public Epic getEpic(int id) throws InstanceNotFoundException {
+        Epic epic = super.getEpic(id);
         save();
         return epic;
     }
 
     @Override
-    public Optional<SubTask> getSubtask(int id) {
-        Optional<SubTask> subTask = super.getSubtask(id);
+    public SubTask getSubtask(int id) throws InstanceNotFoundException {
+        SubTask subTask = super.getSubtask(id);
         save();
         return subTask;
     }
@@ -170,9 +174,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateEpic(Epic task) {
-        super.updateEpic(task);
+    public int updateEpic(Epic task) {
+        int id = super.updateEpic(task);
         save();
+        return id;
     }
 
     @Override

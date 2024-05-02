@@ -17,6 +17,6 @@ class ManagersTest {
         Task task = new Task("name");
         int id = taskManager.createTask(task);
 
-        assertEquals(taskManager.getTask(id).get(), task);
+        assertEquals(taskManager.getTask(id), task);
     }
 }

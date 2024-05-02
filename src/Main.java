@@ -1,3 +1,4 @@
+import ya.tasktracker.constants.Formatters;
 import ya.tasktracker.manager.FileBackedTaskManager;
 import ya.tasktracker.manager.Managers;
 import ya.tasktracker.manager.TaskManager;
@@ -5,14 +6,18 @@ import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
+import javax.management.InstanceNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.ZonedDateTime;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InstanceNotFoundException {
         System.out.println("Поехали!");
+
+        System.out.println(ZonedDateTime.now().format(Formatters.dateTimeFormatter));
 
         Managers managers = new Managers();
 
@@ -28,13 +33,13 @@ public class Main {
         System.out.println(taskManager.getHistory());
         int epicId = taskManager.createEpic(new Epic("эпик с подзадачами"));
         System.out.println(taskManager.getHistory());
-        Epic epic = taskManager.getEpic(epicId).get();
+        Epic epic = taskManager.getEpic(epicId);
         System.out.println(taskManager.getHistory());
-        epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("первая подзадача"))).get());
+        epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("первая подзадача"))));
         System.out.println(taskManager.getHistory());
-        epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("вторая подзадача"))).get());
+        epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("вторая подзадача"))));
         System.out.println(taskManager.getHistory());
-        epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("третья подзадача"))).get());
+        epic.addSubTask(taskManager.getSubtask(taskManager.createSubTask(new SubTask("третья подзадача"))));
         taskManager.getEpic(epicId);
         System.out.println(taskManager.getHistory());
 
@@ -50,13 +55,13 @@ public class Main {
         System.out.println(taskManager1.getHistory());
         epicId = taskManager1.createEpic(new Epic("эпик с подзадачами"));
         System.out.println(taskManager1.getHistory());
-        epic = taskManager1.getEpic(epicId).get();
+        epic = taskManager1.getEpic(epicId);
         System.out.println(taskManager1.getHistory());
-        epic.addSubTask(taskManager1.getSubtask(taskManager1.createSubTask(new SubTask("первая подзадача"))).get());
+        epic.addSubTask(taskManager1.getSubtask(taskManager1.createSubTask(new SubTask("первая подзадача"))));
         System.out.println(taskManager1.getHistory());
-        epic.addSubTask(taskManager1.getSubtask(taskManager1.createSubTask(new SubTask("вторая подзадача"))).get());
+        epic.addSubTask(taskManager1.getSubtask(taskManager1.createSubTask(new SubTask("вторая подзадача"))));
         System.out.println(taskManager1.getHistory());
-        epic.addSubTask(taskManager1.getSubtask(taskManager1.createSubTask(new SubTask("третья подзадача"))).get());
+        epic.addSubTask(taskManager1.getSubtask(taskManager1.createSubTask(new SubTask("третья подзадача"))));
         System.out.println(taskManager1.getHistory());
         taskManager1.getTask(taskId2);
         System.out.println(taskManager1.getHistory());
@@ -82,13 +87,13 @@ public class Main {
         System.out.println(taskManager2.getHistory());
         epicId = taskManager2.createEpic(new Epic("эпик с подзадачами"));
         System.out.println(taskManager2.getHistory());
-        epic = taskManager2.getEpic(epicId).get();
+        epic = taskManager2.getEpic(epicId);
         System.out.println(taskManager2.getHistory());
-        epic.addSubTask(taskManager2.getSubtask(taskManager2.createSubTask(new SubTask("первая подзадача"))).get());
+        epic.addSubTask(taskManager2.getSubtask(taskManager2.createSubTask(new SubTask("первая подзадача"))));
         System.out.println(taskManager2.getHistory());
-        epic.addSubTask(taskManager2.getSubtask(taskManager2.createSubTask(new SubTask("вторая подзадача"))).get());
+        epic.addSubTask(taskManager2.getSubtask(taskManager2.createSubTask(new SubTask("вторая подзадача"))));
         System.out.println(taskManager2.getHistory());
-        epic.addSubTask(taskManager2.getSubtask(taskManager2.createSubTask(new SubTask("третья подзадача"))).get());
+        epic.addSubTask(taskManager2.getSubtask(taskManager2.createSubTask(new SubTask("третья подзадача"))));
         System.out.println(taskManager2.getHistory());
         taskManager2.getTask(taskId2);
         System.out.println(taskManager2.getHistory());

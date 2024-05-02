@@ -11,11 +11,17 @@ import java.time.ZonedDateTime;
 public class ZonedDateTimeAdapter extends TypeAdapter<ZonedDateTime> {
     @Override
     public void write(JsonWriter jsonWriter, ZonedDateTime zonedDateTime) throws IOException {
-        jsonWriter.value(zonedDateTime.format(Formatters.dateTimeFormatter));
+        if (zonedDateTime != null) {
+            jsonWriter.value(zonedDateTime.format(Formatters.dateTimeFormatter));
+        } else {
+            jsonWriter.value("");
+        }
     }
 
     @Override
     public ZonedDateTime read(JsonReader jsonReader) throws IOException {
-        return ZonedDateTime.parse(jsonReader.nextString(),Formatters.dateTimeFormatter);
+        String str = jsonReader.nextString();
+        if (str.isBlank()) return null;
+        return ZonedDateTime.parse(str, Formatters.dateTimeFormatter);
     }
 }

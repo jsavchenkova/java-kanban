@@ -1,5 +1,6 @@
 package ya.tasktracker.task;
 
+import com.google.gson.annotations.Expose;
 import ya.tasktracker.constants.TaskType;
 
 import java.time.ZonedDateTime;
@@ -7,7 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Epic extends Task {
+    @Expose
     private final List<Integer> subTaskList;
+    @Expose
     private ZonedDateTime endTime;
 
     public Epic(String name) {

@@ -1,0 +1,3 @@
+id,type,name,status,description,epic,start,finish,duration
+0,TASK,первая задача,NEW,,,,,
+2,EPIC,пустой эпик,NEW,,,,,

@@ -4,6 +4,7 @@ import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
@@ -23,11 +24,11 @@ public interface TaskManager {
 
     void removeAllSubTask();
 
-    Optional<Task> getTask(int id);
+    Task getTask(int id) throws InstanceNotFoundException;
 
-    Optional<Epic> getEpic(int id);
+    Epic getEpic(int id) throws InstanceNotFoundException;
 
-    Optional<SubTask> getSubtask(int id);
+    SubTask getSubtask(int id) throws InstanceNotFoundException;
 
     int createTask(Task task);
 
@@ -37,7 +38,7 @@ public interface TaskManager {
 
     int updateTask(Task task);
 
-    void updateEpic(Epic task);
+    int updateEpic(Epic task);
 
     int updateSubTask(SubTask task);
 
