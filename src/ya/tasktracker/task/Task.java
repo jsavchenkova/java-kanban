@@ -1,5 +1,7 @@
 package ya.tasktracker.task;
 
+import com.google.gson.annotations.Expose;
+import ya.tasktracker.constants.Formatters;
 import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.constants.TaskType;
 
@@ -10,15 +12,21 @@ import java.util.Objects;
 
 public class Task {
 
+    @Expose
     private TaskStatus status;
-    private int id;
+    @Expose
+    private Integer id;
+    @Expose
     private String name;
+    @Expose
     private String description;
+    @Expose
     private Duration duration;
+    @Expose
     private ZonedDateTime startTime;
 
     private DateTimeFormatter formatter;
-    private String dateTimeFormat = "yyyy.MM.dd HH:mm VV";
+    private String dateTimeFormat = Formatters.dateTimeFormat;
 
     public Task() {
         formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
@@ -40,11 +48,11 @@ public class Task {
             startTime = ZonedDateTime.parse(params[6], formatter);
         }
         if (!params[7].isBlank()) {
-            duration = Duration.ofSeconds(Long.parseLong(params[8]));
+            duration = Duration.ofMinutes(Long.parseLong(params[8]));
         }
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -86,7 +94,7 @@ public class Task {
     }
 
     public ZonedDateTime getEndTime() {
-        return startTime.plusSeconds(duration.getSeconds());
+        return startTime.plusMinutes(duration.toMinutes());
     }
 
     @Override
@@ -129,7 +137,7 @@ public class Task {
         if (getStartTime() != null && getDuration() != null) {
             start = getStartTime().format(formatter);
             finish = getEndTime().format(formatter);
-            durationTask = String.valueOf(getDuration().getSeconds());
+            durationTask = String.valueOf(getDuration().toMinutes());
         }
 
         return String.format("%s,%s,%s,%s,%s,,%s,%s,%s", getId(), TaskType.TASK, getName(), getStatus(), getDescription(),

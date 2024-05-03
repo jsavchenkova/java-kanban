@@ -69,7 +69,7 @@ class EpicTest {
     void clearSubTasks() {
         int id1 = 6;
         int id2 = 7;
-        int  id3 = 8;
+        int id3 = 8;
         Epic epic = new Epic("epic_clear_subtask");
         epic.setId(id1);
         SubTask subTask67 = new SubTask("test_clear_subtask");

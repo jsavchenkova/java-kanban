@@ -3,6 +3,7 @@ package ya.tasktracker.manager;
 import ya.tasktracker.constants.TaskStatus;
 import ya.tasktracker.task.*;
 
+import javax.management.InstanceNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -70,28 +71,34 @@ class InMemoryTaskManager implements TaskManager {
     }
 
 
-    public Optional<Task> getTask(int id) {
+    public Task getTask(int id) throws InstanceNotFoundException {
         Task task = tasks.get(id);
         if (task != null) {
             inMemoryHistoryManager.add(task);
+        } else {
+            throw new InstanceNotFoundException("Задача не найдена");
         }
-        return Optional.ofNullable(tasks.get(id));
+        return task;
     }
 
-    public Optional<Epic> getEpic(int id) {
+    public Epic getEpic(int id) throws InstanceNotFoundException {
         Epic epic = epics.get(id);
         if (epic != null) {
             inMemoryHistoryManager.add(epic);
+        } else {
+            throw new InstanceNotFoundException("Эпик не найден");
         }
-        return Optional.ofNullable(epics.get(id));
+        return epic;
     }
 
-    public Optional<SubTask> getSubtask(int id) {
+    public SubTask getSubtask(int id) throws InstanceNotFoundException {
         SubTask subTask = subTasks.get(id);
         if (subTask != null) {
             inMemoryHistoryManager.add(subTask);
+        } else {
+            throw new InstanceNotFoundException("Подзадача не найден");
         }
-        return Optional.ofNullable(subTasks.get(id));
+        return subTask;
     }
 
     public int createTask(Task task) {
@@ -135,9 +142,9 @@ class InMemoryTaskManager implements TaskManager {
         return task.getId();
     }
 
-    public void updateEpic(Epic task) {
+    public int updateEpic(Epic task) {
         epics.put(task.getId(), task);
-
+        return task.getId();
     }
 
     public int updateSubTask(SubTask task) {
@@ -291,8 +298,9 @@ class InMemoryTaskManager implements TaskManager {
             if (intervals.containsKey(startInterval)) {
                 long count = intervals.get(startInterval).stream()
                         .filter(x ->
-                                (x.getStartTime().isAfter(task.getStartTime()) && x.getStartTime().isBefore(task.getEndTime()))
+                                ((x.getStartTime().isAfter(task.getStartTime()) && x.getStartTime().isBefore(task.getEndTime()))
                                         || (x.getEndTime().isAfter(task.getStartTime()) && x.getEndTime().isBefore(task.getEndTime())))
+                                        && x.getId() != task.getId())
                         .count();
                 if (count > 0) {
                     return false;

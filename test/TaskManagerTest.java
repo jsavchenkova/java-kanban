@@ -6,6 +6,7 @@ import ya.tasktracker.task.Epic;
 import ya.tasktracker.task.SubTask;
 import ya.tasktracker.task.Task;
 
+import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -25,24 +26,24 @@ abstract class TaskManagerTest<T extends TaskManager> {
     abstract void create() throws IOException;
 
     @Test
-    void createTaskTest() {
+    void createTaskTest() throws InstanceNotFoundException {
         Task task = new Task("task");
         int id = taskManager.createTask(task);
-        assertEquals(taskManager.getTask(id).get(), task);
+        assertEquals(taskManager.getTask(id), task);
     }
 
     @Test
-    void createEpicTest() {
+    void createEpicTest() throws InstanceNotFoundException {
         Epic epic = new Epic("epic");
         int id = taskManager.createEpic(epic);
-        assertEquals(taskManager.getEpic(id).get(), epic);
+        assertEquals(taskManager.getEpic(id), epic);
     }
 
     @Test
-    void createSubTaskTest() {
+    void createSubTaskTest() throws InstanceNotFoundException {
         SubTask subTask = new SubTask("subtask");
         int id = taskManager.createSubTask(subTask);
-        assertEquals(taskManager.getSubtask(id).get(), subTask);
+        assertEquals(taskManager.getSubtask(id), subTask);
     }
 
     @Test
@@ -208,28 +209,28 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void EpicSubTaskTest() {
+    void EpicSubTaskTest() throws InstanceNotFoundException {
         Epic epic3 = new Epic("epic3");
         int id = taskManager.createEpic(epic3);
         SubTask subTask3 = new SubTask("subTask3");
         int stId = taskManager.createSubTask(subTask3);
         epic3.addSubTask(subTask3);
 
-        Epic epic = taskManager.getEpic(id).get();
+        Epic epic = taskManager.getEpic(id);
 
         assertEquals(1, epic.getSubTask().size());
         assertEquals(stId, taskManager.getSubTasks().get(0).getId());
     }
 
     @Test
-    void SubTaskEpicTest() {
+    void SubTaskEpicTest() throws InstanceNotFoundException {
         Epic epic3 = new Epic("epic3");
         int id = taskManager.createEpic(epic3);
         SubTask subTask3 = new SubTask("subTask3");
         int stId = taskManager.createSubTask(subTask3);
         epic3.addSubTask(subTask3);
 
-        SubTask subTask = taskManager.getSubtask(stId).get();
+        SubTask subTask = taskManager.getSubtask(stId);
 
         assertEquals(id, subTask.getParentId());
     }
