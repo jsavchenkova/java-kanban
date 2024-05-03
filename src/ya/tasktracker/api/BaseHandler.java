@@ -13,9 +13,10 @@ import java.net.URI;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 
+// Базовый класс обработчика
 public abstract class BaseHandler {
-    TaskManager manager;
-    Gson gson;
+    protected TaskManager manager;
+    protected Gson gson;
 
     public BaseHandler(TaskManager taskManager) {
         manager = taskManager;

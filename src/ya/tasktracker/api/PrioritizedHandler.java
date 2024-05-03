@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.TreeSet;
 
+// обработчик эндпоинта /prioritized
 public class PrioritizedHandler extends BaseHandler implements HttpHandler {
     public PrioritizedHandler(TaskManager taskManager) {
         super(taskManager);

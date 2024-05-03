@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+// обработчик эндпоинта /history
 public class HistoryHandler extends BaseHandler implements HttpHandler {
     public HistoryHandler(TaskManager taskManager) {
         super(taskManager);

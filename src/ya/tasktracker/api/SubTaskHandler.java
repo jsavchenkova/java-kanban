@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+// обработчик эндпоинта /subtasks
 public class SubTaskHandler extends BaseHandler implements HttpHandler {
 
     public SubTaskHandler(TaskManager taskManager) {

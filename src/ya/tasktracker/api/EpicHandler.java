@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+// обработчик эндпоинта /epics
 public class EpicHandler extends BaseHandler implements HttpHandler {
     public EpicHandler(TaskManager taskManager) {
         super(taskManager);
